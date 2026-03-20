@@ -1,4 +1,5 @@
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import PageShell from "../components/PageShell";
 import PolicyMatchList from "../components/PolicyMatchList";
 import PrimaryButton from "../components/PrimaryButton";
@@ -9,6 +10,8 @@ import StatusBadge from "../components/StatusBadge";
 import TopProgress from "../components/TopProgress";
 import VerdictCard from "../components/VerdictCard";
 import mockAnalysis from "../data/mockAnalysis";
+import { getCheckById } from "../lib/api";
+import { useCheckFlow } from "../lib/checkFlowContext";
 
 function formatClassification(verdict) {
   return String(verdict || "")
@@ -46,18 +49,39 @@ function getRiskProfile(riskScore) {
 
 function ResultPage() {
   const navigate = useNavigate();
-  const classification = formatClassification(mockAnalysis.verdict);
-  const riskProfile = getRiskProfile(mockAnalysis.riskScore);
-  const badgeVariant = getBadgeVariant(mockAnalysis.verdict);
+  const { id } = useParams();
+  const { flowState, resetFlowState } = useCheckFlow();
+  const [analysis, setAnalysis] = useState(mockAnalysis);
+
+  useEffect(() => {
+    let isActive = true;
+
+    getCheckById(id || mockAnalysis.id).then((result) => {
+      if (isActive) {
+        setAnalysis(result);
+      }
+    });
+
+    return () => {
+      isActive = false;
+    };
+  }, [id]);
+
+  const classification = formatClassification(analysis.verdict);
+  const riskProfile = getRiskProfile(analysis.riskScore);
+  const badgeVariant = getBadgeVariant(analysis.verdict);
+  const suspectedCourseCode = flowState.courseCode || analysis.courseCode;
+  const suspectedCourseLabel =
+    flowState.courseCode || [analysis.courseCode, analysis.courseName].filter(Boolean).join(" ");
   const policyItems = [
     {
-      courseCode: mockAnalysis.courseCode,
+      courseCode: suspectedCourseCode,
       sectionTitle: "Permitted AI Support",
       snippet:
         "Brainstorming, outlining, and language revision may be acceptable when the final submission still reflects the student’s own judgment and course understanding."
     },
     {
-      courseCode: mockAnalysis.courseCode,
+      courseCode: suspectedCourseCode,
       sectionTitle: "Student Responsibility",
       snippet:
         "Students remain responsible for verifying course-specific references, citations, and any claims carried forward from an AI-assisted draft."
@@ -88,7 +112,7 @@ function ResultPage() {
                 textTransform: "uppercase"
               }}
             >
-              Analysis ID: {mockAnalysis.id}
+              Analysis ID: {id || analysis.id}
             </p>
             <h1
               style={{
@@ -120,8 +144,8 @@ function ResultPage() {
         <VerdictCard
           classification={classification}
           riskLevel={riskProfile}
-          summary={mockAnalysis.summary}
-          suspectedCourse={`${mockAnalysis.courseCode} ${mockAnalysis.courseName}`}
+          summary={analysis.summary}
+          suspectedCourse={suspectedCourseLabel}
         />
 
         <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
@@ -138,7 +162,7 @@ function ResultPage() {
             >
               Reasoning Behind Verdict
             </p>
-            <ReasoningList reasons={mockAnalysis.flags} />
+            <ReasoningList reasons={analysis.flags} />
           </section>
 
           <section style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
@@ -170,7 +194,7 @@ function ResultPage() {
             >
               Safer Next Steps
             </p>
-            <SaferNextSteps steps={mockAnalysis.recommendations} />
+            <SaferNextSteps steps={analysis.recommendations} />
           </section>
         </div>
 
@@ -183,11 +207,18 @@ function ResultPage() {
             paddingTop: "4px"
           }}
         >
-          <SecondaryButton onClick={() => navigate("/check/start")}>
+          <SecondaryButton
+            onClick={() => {
+              resetFlowState();
+              navigate("/check/start");
+            }}
+          >
             Start New Check
           </SecondaryButton>
 
-          <PrimaryButton>Save Result</PrimaryButton>
+          <PrimaryButton onClick={() => navigate("/history")}>
+            Save Result
+          </PrimaryButton>
         </section>
       </div>
     </PageShell>

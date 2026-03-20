@@ -1,12 +1,72 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PageShell from "../components/PageShell";
 import PrimaryButton from "../components/PrimaryButton";
 import ReviewCard from "../components/ReviewCard";
 import SecondaryButton from "../components/SecondaryButton";
 import TopProgress from "../components/TopProgress";
+import { saveDraft, submitCheck } from "../lib/api";
+import { useCheckFlow } from "../lib/checkFlowContext";
 
 function ReviewPage() {
   const navigate = useNavigate();
+  const { flowState } = useCheckFlow();
+  const [isSavingDraft, setIsSavingDraft] = useState(false);
+  const [isSubmittingCheck, setIsSubmittingCheck] = useState(false);
+
+  const conversationPreview = flowState.conversationText.trim()
+    ? flowState.conversationText.trim()
+    : flowState.conversationFile
+      ? `Conversation file uploaded: ${flowState.conversationFile.name}`
+      : "No conversation has been added yet.";
+
+  const previewText =
+    conversationPreview.length > 420
+      ? `${conversationPreview.slice(0, 420)}...`
+      : conversationPreview;
+
+  const courseSummaryItems = [
+    { label: "Institution", value: flowState.institution || "Not provided" },
+    { label: "Course Code", value: flowState.courseCode || "Not provided" },
+    {
+      label: "Assignment Type",
+      value: flowState.assignmentType || "Not provided"
+    },
+    {
+      label: "Student Status",
+      value: flowState.studentStatus || "Not provided"
+    }
+  ];
+
+  const handleSaveDraft = async () => {
+    if (isSavingDraft || isSubmittingCheck) {
+      return;
+    }
+
+    setIsSavingDraft(true);
+
+    try {
+      await saveDraft(flowState);
+      navigate("/history");
+    } finally {
+      setIsSavingDraft(false);
+    }
+  };
+
+  const handleSubmitCheck = async () => {
+    if (isSavingDraft || isSubmittingCheck) {
+      return;
+    }
+
+    setIsSubmittingCheck(true);
+
+    try {
+      const result = await submitCheck(flowState);
+      navigate(`/check/result/${result.id}`);
+    } finally {
+      setIsSubmittingCheck(false);
+    }
+  };
 
   return (
     <PageShell>
@@ -100,10 +160,7 @@ function ReviewPage() {
                     lineHeight: 1.6
                   }}
                 >
-                  Student asks for help refining a reflection draft and checking
-                  whether the structure fits the assignment prompt. The
-                  conversation includes brainstorming, outline revisions, and
-                  wording suggestions.
+                  {previewText}
                 </p>
               </div>
             </div>
@@ -124,12 +181,7 @@ function ReviewPage() {
                 gap: "12px"
               }}
             >
-              {[
-                { label: "Institution", value: "University of Toronto" },
-                { label: "Course Code", value: "EDS345" },
-                { label: "Assignment Type", value: "Essay" },
-                { label: "Student Status", value: "Undergraduate" }
-              ].map((item) => (
+              {courseSummaryItems.map((item) => (
                 <div
                   key={item.label}
                   style={{
@@ -194,7 +246,9 @@ function ReviewPage() {
                     fontWeight: 600
                   }}
                 >
-                  EDS345-syllabus.pdf
+                  {flowState.syllabusFile
+                    ? flowState.syllabusFile.name
+                    : "No file uploaded"}
                 </p>
                 <p
                   style={{
@@ -204,7 +258,9 @@ function ReviewPage() {
                     lineHeight: 1.45
                   }}
                 >
-                  Uploaded to provide policy and assignment context for the review.
+                  {flowState.syllabusFile
+                    ? "Uploaded to provide policy and assignment context for the review."
+                    : "You can continue without a syllabus file, but adding one may improve policy matching."}
                 </p>
               </div>
 
@@ -231,13 +287,14 @@ function ReviewPage() {
             paddingTop: "4px"
           }}
         >
-          <SecondaryButton onClick={() => navigate("/history")}>
+          <SecondaryButton
+            loading={isSavingDraft}
+            onClick={handleSaveDraft}
+          >
             Save as Draft
           </SecondaryButton>
 
-          <PrimaryButton
-            onClick={() => navigate("/check/result/mock-check-001")}
-          >
+          <PrimaryButton loading={isSubmittingCheck} onClick={handleSubmitCheck}>
             Submit Check
           </PrimaryButton>
         </section>

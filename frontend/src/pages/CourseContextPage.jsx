@@ -8,6 +8,8 @@ import SectionCard from "../components/SectionCard";
 import SelectInput from "../components/SelectInput";
 import TextInput from "../components/TextInput";
 import TopProgress from "../components/TopProgress";
+import { uploadSyllabusFile } from "../lib/api";
+import { useCheckFlow } from "../lib/checkFlowContext";
 
 const assignmentTypes = [
   "Essay",
@@ -27,20 +29,13 @@ const studentStatuses = [
 function CourseContextPage() {
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
-  const [formValues, setFormValues] = useState({
-    institution: "",
-    courseCode: "",
-    isUofTStudent: false,
-    assignmentType: "",
-    studentStatus: "",
-    syllabusFile: null
-  });
+  const { flowState, updateFlowState } = useCheckFlow();
+  const [isUploadingFile, setIsUploadingFile] = useState(false);
 
   const updateField = (field, value) => {
-    setFormValues((current) => ({
-      ...current,
+    updateFlowState({
       [field]: value
-    }));
+    });
   };
 
   const handleOpenFilePicker = () => {
@@ -49,7 +44,20 @@ function CourseContextPage() {
 
   const handleFileChange = (event) => {
     const nextFile = event.target.files?.[0] ?? null;
-    updateField("syllabusFile", nextFile);
+
+    if (!nextFile) {
+      return;
+    }
+
+    setIsUploadingFile(true);
+
+    uploadSyllabusFile(nextFile)
+      .then((uploadedFile) => {
+        updateField("syllabusFile", uploadedFile);
+      })
+      .finally(() => {
+        setIsUploadingFile(false);
+      });
   };
 
   const handleRemoveFile = () => {
@@ -117,7 +125,7 @@ function CourseContextPage() {
                       updateField("institution", event.target.value)
                     }
                     placeholder="University of Toronto"
-                    value={formValues.institution}
+                    value={flowState.institution}
                   />
 
                   <TextInput
@@ -127,12 +135,12 @@ function CourseContextPage() {
                       updateField("courseCode", event.target.value)
                     }
                     placeholder="EDS345"
-                    value={formValues.courseCode}
+                    value={flowState.courseCode}
                   />
                 </div>
 
                 <CheckboxField
-                  checked={formValues.isUofTStudent}
+                  checked={flowState.isUofTStudent}
                   helperText="Check this if the course is being taken as a University of Toronto student."
                   label="I am a University of Toronto student"
                   onChange={(event) =>
@@ -161,7 +169,7 @@ function CourseContextPage() {
                   }
                   options={assignmentTypes}
                   placeholder="Select assignment type"
-                  value={formValues.assignmentType}
+                  value={flowState.assignmentType}
                 />
 
                 <SelectInput
@@ -172,7 +180,7 @@ function CourseContextPage() {
                   }
                   options={studentStatuses}
                   placeholder="Select student status"
-                  value={formValues.studentStatus}
+                  value={flowState.studentStatus}
                 />
               </div>
             </SectionCard>
@@ -244,7 +252,7 @@ function CourseContextPage() {
                     lineHeight: 1.35
                   }}
                 >
-                  {formValues.syllabusFile ? "File selected" : "Choose syllabus file"}
+                  {flowState.syllabusFile ? "File selected" : "Choose syllabus file"}
                 </span>
                 <span
                   style={{
@@ -254,13 +262,13 @@ function CourseContextPage() {
                     textAlign: "center"
                   }}
                 >
-                  {formValues.syllabusFile
-                    ? formValues.syllabusFile.name
+                  {flowState.syllabusFile
+                    ? flowState.syllabusFile.name
                     : "PDF, DOC, DOCX, or TXT"}
                 </span>
               </button>
 
-              {formValues.syllabusFile ? (
+              {flowState.syllabusFile ? (
                 <div
                   style={{
                     display: "flex",
@@ -278,14 +286,18 @@ function CourseContextPage() {
                       margin: 0,
                       color: "#111111",
                       fontSize: "0.86rem",
-                      fontWeight: 600
+                    fontWeight: 600
                     }}
                   >
-                    {formValues.syllabusFile.name}
+                    {flowState.syllabusFile.name}
                   </p>
 
                   <div style={{ display: "flex", gap: "8px", flexShrink: 0 }}>
-                    <SecondaryButton onClick={handleOpenFilePicker}>
+                    <SecondaryButton
+                      disabled={isUploadingFile}
+                      loading={isUploadingFile}
+                      onClick={handleOpenFilePicker}
+                    >
                       Replace
                     </SecondaryButton>
                     <SecondaryButton onClick={handleRemoveFile}>

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TextInput from "../components/TextInput";
+import { useCheckFlow } from "../lib/checkFlowContext";
 import supabaseClient from "../lib/supabaseClient";
 
 const modes = {
@@ -14,6 +15,7 @@ const modes = {
 
 function LoginPage() {
   const navigate = useNavigate();
+  const { resetFlowState } = useCheckFlow();
   const [mode, setMode] = useState("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -79,6 +81,7 @@ function LoginPage() {
         }
       }
 
+      resetFlowState();
       navigate("/");
     } catch (submitError) {
       setError(submitError.message || "Unable to continue right now.");
