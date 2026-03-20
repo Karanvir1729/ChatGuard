@@ -1,3 +1,5 @@
+// AI GENERATED FILE
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import EmptyState from "../components/EmptyState";

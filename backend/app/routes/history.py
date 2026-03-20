@@ -1,3 +1,5 @@
+# AI GENERATED FILE
+
 from backend.app.schemas import HistoryItem
 from backend.app.storage import storage
 from fastapi import APIRouter

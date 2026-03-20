@@ -1,3 +1,5 @@
+// AI GENERATED FILE
+
 const mockAnalysis = {
   id: "chk_1024",
   status: "completed",

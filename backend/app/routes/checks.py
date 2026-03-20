@@ -1,69 +1,23 @@
+# AI GENERATED FILE
+
 from datetime import datetime
 from uuid import uuid4
 
 from fastapi import APIRouter, HTTPException
 
-from backend.app.schemas import CheckResult, CheckSubmission, HistoryItem, PolicyChunk
+from backend.app.schemas import CheckResult, CheckSubmission, HistoryItem
+from backend.app.services.classifier import classify_submission
+from backend.app.services.retrieval import retrieve_policy_chunks
 from backend.app.storage import storage
 
 
 router = APIRouter(prefix="/checks", tags=["checks"])
 
 
-def build_check_result(submission: CheckSubmission, check_id: str | None = None) -> CheckResult:
-    course_code = submission.context.course_code.strip() or "Unknown course"
-    assignment_type = submission.context.assignment_type or "course submission"
-    now = datetime.utcnow()
-
-    classification = (
-        "Allowed With Advisory"
-        if submission.confirmation_checked
-        else "Needs Caution"
-    )
-    risk_level = "Minimal" if submission.confirmation_checked else "Moderate"
-    summary = (
-        f"This review suggests the conversation reads like planning and revision support for a {assignment_type.lower()}. "
-        "It still makes sense to compare the final work against course expectations before submission."
-    )
-
-    reasoning = [
-        "The submission includes enough material to run a basic review.",
-        "Course context was considered when shaping the result.",
-        "The output is advisory and should still be checked against instructor guidance.",
-    ]
-
-    matched_policies = [
-        PolicyChunk(
-            course_code=course_code,
-            section_title="Use of AI Tools",
-            snippet="Planning, outlining, and revision support may be acceptable when the final submission remains the student's own work.",
-        )
-    ]
-
-    safer_next_steps = [
-        "Review the final submission in your own words before turning it in.",
-        "Compare the result against the course syllabus or assignment brief.",
-        "Ask your instructor or TA if the policy still feels unclear.",
-    ]
-
-    return CheckResult(
-        id=check_id or f"check-{uuid4().hex[:8]}",
-        summary=summary,
-        suspected_course=course_code,
-        classification=classification,
-        risk_level=risk_level,
-        status="completed",
-        reasoning=reasoning,
-        matched_policies=matched_policies,
-        safer_next_steps=safer_next_steps,
-        created_at=now,
-        updated_at=now,
-    )
-
-
 @router.post("/analyze", response_model=CheckResult)
 def analyze_check(submission: CheckSubmission) -> CheckResult:
-    result = build_check_result(submission)
+    policy_chunks = retrieve_policy_chunks(submission.context.course_code)
+    result = classify_submission(submission, policy_chunks)
     return storage.save_check(result)
 
 

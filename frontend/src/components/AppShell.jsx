@@ -1,3 +1,5 @@
+// AI GENERATED FILE
+
 import { NavLink } from "react-router-dom";
 import { navItems } from "../data/navItems";
 

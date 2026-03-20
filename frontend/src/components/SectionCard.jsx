@@ -1,3 +1,5 @@
+// AI GENERATED FILE
+
 function SectionCard({ title, description, action, children }) {
   return (
     <section

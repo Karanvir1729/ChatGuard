@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# AI GENERATED FILE
+
 
 set -euo pipefail
 

@@ -1,3 +1,5 @@
+// AI GENERATED FILE
+
 import { hasSupabaseConfig } from "../lib/supabase";
 
 const previewSections = [

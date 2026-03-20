@@ -1,3 +1,5 @@
+# AI GENERATED FILE
+
 from fastapi import APIRouter
 
 router = APIRouter()

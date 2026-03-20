@@ -1,3 +1,5 @@
+# AI GENERATED FILE
+
 from backend.app.services.parser import extract_policy_sections
 
 

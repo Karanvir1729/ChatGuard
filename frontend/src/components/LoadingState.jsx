@@ -1,3 +1,5 @@
+// AI GENERATED FILE
+
 function LoadingState({ label = "Loading" }) {
   return (
     <div

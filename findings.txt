@@ -1,0 +1,13 @@
+AI GENERATED FILE
+
+Finding: Kimi K2 is not an appropriate local backend model for this ChatGuard setup right now.
+
+Reason:
+- The practical local Ollama Kimi K2 build commonly referenced is approximately 373 GB, which exceeds the available disk on this machine.
+- This machine currently has about 66 GiB free disk and 16 GB RAM, so local Kimi K2 is not a realistic fit.
+- The official Ollama Kimi cloud option requires Ollama sign-in and is not a true local model deployment.
+- The backend only needs a lightweight advisory classification step at this stage, so a small local Ollama model is the more practical choice.
+
+Current decision:
+- Use a lightweight local Ollama model such as `qwen2.5:0.5b` for development.
+- Keep the backend classifier fallback-safe so the app still works if the local model is unavailable.

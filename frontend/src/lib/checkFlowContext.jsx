@@ -1,3 +1,5 @@
+// AI GENERATED FILE
+
 import { createContext, useContext, useState } from "react";
 
 export const defaultCheckFlowState = {

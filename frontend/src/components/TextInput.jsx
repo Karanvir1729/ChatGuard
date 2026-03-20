@@ -1,3 +1,5 @@
+// AI GENERATED FILE
+
 import { useId } from "react";
 
 function TextInput({ label, helperText, error, id: providedId, ...inputProps }) {

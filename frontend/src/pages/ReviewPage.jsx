@@ -1,3 +1,5 @@
+// AI GENERATED FILE
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PageShell from "../components/PageShell";

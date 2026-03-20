@@ -1,3 +1,5 @@
+AI GENERATED FILE
+
 # ChatGuard
 
 ChatGuard is a desktop-first prototype for reviewing AI-assisted coursework submissions before they are turned in.

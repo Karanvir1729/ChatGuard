@@ -1,3 +1,5 @@
+# AI GENERATED FILE
+
 from fastapi.testclient import TestClient
 
 from backend.app.main import app

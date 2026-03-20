@@ -1,3 +1,5 @@
+// AI GENERATED FILE
+
 import { fileURLToPath } from "url";
 
 const frontendRoot = fileURLToPath(new URL(".", import.meta.url));

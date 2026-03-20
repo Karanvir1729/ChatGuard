@@ -1,5 +1,8 @@
+# AI GENERATED FILE
+
 .DS_Store
 .env
+frontend/.env
 .venv/
 .pytest_cache/
 __pycache__/

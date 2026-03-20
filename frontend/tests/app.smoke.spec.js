@@ -1,3 +1,5 @@
+// AI GENERATED FILE
+
 import { expect, test } from "@playwright/test";
 
 const API_URL = process.env.PLAYWRIGHT_API_URL || "http://127.0.0.1:8000";

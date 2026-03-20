@@ -1,3 +1,5 @@
+// AI GENERATED FILE
+
 function SaferNextSteps({ steps = [] }) {
   return (
     <section

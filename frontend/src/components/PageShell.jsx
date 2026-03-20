@@ -1,3 +1,5 @@
+// AI GENERATED FILE
+
 import HeaderBar from "./HeaderBar";
 import Sidebar from "./Sidebar";
 

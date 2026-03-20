@@ -1,3 +1,5 @@
+// AI GENERATED FILE
+
 import { createBrowserRouter } from "react-router-dom";
 import CourseContextPage from "./pages/CourseContextPage";
 import DashboardPage from "./pages/DashboardPage";
@@ -9,43 +11,50 @@ import ResultPage from "./pages/ResultPage";
 import ReviewPage from "./pages/ReviewPage";
 import StartCheckPage from "./pages/StartCheckPage";
 
-const router = createBrowserRouter([
+const router = createBrowserRouter(
+  [
+    {
+      path: "/login",
+      element: <LoginPage />
+    },
+    {
+      path: "/",
+      element: <DashboardPage />
+    },
+    {
+      path: "/check/start",
+      element: <StartCheckPage />
+    },
+    {
+      path: "/check/context",
+      element: <CourseContextPage />
+    },
+    {
+      path: "/check/review",
+      element: <ReviewPage />
+    },
+    {
+      path: "/check/result/:id",
+      element: <ResultPage />
+    },
+    {
+      path: "/history",
+      element: <HistoryPage />
+    },
+    {
+      path: "/learn-more",
+      element: <LearnMorePage />
+    },
+    {
+      path: "*",
+      element: <NotFoundPage />
+    }
+  ],
   {
-    path: "/login",
-    element: <LoginPage />
-  },
-  {
-    path: "/",
-    element: <DashboardPage />
-  },
-  {
-    path: "/check/start",
-    element: <StartCheckPage />
-  },
-  {
-    path: "/check/context",
-    element: <CourseContextPage />
-  },
-  {
-    path: "/check/review",
-    element: <ReviewPage />
-  },
-  {
-    path: "/check/result/:id",
-    element: <ResultPage />
-  },
-  {
-    path: "/history",
-    element: <HistoryPage />
-  },
-  {
-    path: "/learn-more",
-    element: <LearnMorePage />
-  },
-  {
-    path: "*",
-    element: <NotFoundPage />
+    future: {
+      v7_startTransition: true
+    }
   }
-]);
+);
 
 export default router;

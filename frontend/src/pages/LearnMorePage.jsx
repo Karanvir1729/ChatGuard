@@ -1,3 +1,5 @@
+// AI GENERATED FILE
+
 import PageShell from "../components/PageShell";
 import SectionCard from "../components/SectionCard";
 

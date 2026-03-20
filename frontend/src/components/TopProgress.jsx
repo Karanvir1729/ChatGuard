@@ -1,3 +1,5 @@
+// AI GENERATED FILE
+
 const steps = [
   "Paste Conversation",
   "Add Course Context",

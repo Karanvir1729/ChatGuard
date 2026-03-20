@@ -1,3 +1,5 @@
+// AI GENERATED FILE
+
 import { useId, useRef, useState } from "react";
 import SecondaryButton from "./SecondaryButton";
 import SectionCard from "./SectionCard";

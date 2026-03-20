@@ -1,3 +1,5 @@
+// AI GENERATED FILE
+
 function ReasoningList({ reasons = [] }) {
   return (
     <section

@@ -1,3 +1,5 @@
+// AI GENERATED FILE
+
 function EmptyState({ title, desc, action }) {
   return (
     <div

@@ -1,3 +1,5 @@
+// AI GENERATED FILE
+
 import mockAnalysis from "../data/mockAnalysis";
 import mockHistory from "../data/mockHistory";
 

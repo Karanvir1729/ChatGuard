@@ -1,58 +1,1171 @@
-Attribution
+AI GENERATED FILE
 
-Note: This file is created by codex. 
+This file is AI generated.
 
-This file records the user-authored prompts that directed the repository work in
-this ChatGuard build session. Entries are formatted in an APA-style reference
-list format for unpublished prompts submitted to OpenAI Codex on March 20,
-2026. One prompt that originally included credentials has been redacted for
-security.
+Verbatim user prompts preserved exactly as typed:
 
-Document Preparation Note
+Prompt 1
+<<<
+For every prompt after this:
+- Only edit the files I name.
+- Do not add extra features.
+- Keep the UI desktop-first, grayscale, minimal, and close to the wireframes.
+- Use React + Vite on the frontend.
+- Use FastAPI on the backend.
+- At the end of each response, list exactly which files you changed.
+>>>
 
-OpenAI Codex. (2026, March 20). Attribution file for ChatGuard build session [AI-generated attribution document prepared in response to user request]. Unpublished.
+Prompt 2
+<<<
+Create the ChatGuard repo scaffold.
 
-References
+Make these folders and files:
+- README.md
+- .env.example
+- package.json
+- frontend with src, components, pages, lib, data
+- backend with app, routes, services, prompts, utils, scripts, tests
 
-Khanna, K. (2026a, March 20). For every prompt after this [Project constraints prompt submitted to OpenAI Codex]. Unpublished.
-Khanna, K. (2026b, March 20). Create the ChatGuard repo scaffold [Repository scaffold prompt submitted to OpenAI Codex]. Unpublished.
-Khanna, K. (2026c, March 20). Fill in the root files [Root configuration prompt submitted to OpenAI Codex]. Unpublished.
-Khanna, K. (2026d, March 20). Set up frontend bootstrap [Frontend bootstrap prompt submitted to OpenAI Codex]. Unpublished.
-Khanna, K. (2026e, March 20). Set up backend bootstrap [Backend bootstrap prompt submitted to OpenAI Codex]. Unpublished.
-Khanna, K. (2026f, March 20). Do the global CSS [Global styling prompt submitted to OpenAI Codex]. Unpublished.
-Khanna, K. (2026g, March 20). Build the Sidebar and HeaderBar [Frontend component prompt submitted to OpenAI Codex]. Unpublished.
-Khanna, K. (2026h, March 20). Build the shared page shell [Layout component prompt submitted to OpenAI Codex]. Unpublished.
-Khanna, K. (2026i, March 20). Build the reusable button components [UI component prompt submitted to OpenAI Codex]. Unpublished.
-Khanna, K. (2026j, March 20). Build the basic form input components [Form component prompt submitted to OpenAI Codex]. Unpublished.
-Khanna, K. (2026k, March 20). Build the utility UI components [Utility component prompt submitted to OpenAI Codex]. Unpublished.
-Khanna, K. (2026l, March 20). Build TopProgress and the router skeleton [Router and progress prompt submitted to OpenAI Codex]. Unpublished.
-Khanna, K. (2026m, March 20). Set up auth helper and mock data files (credentials redacted) [Frontend auth and mock data prompt submitted to OpenAI Codex]. Unpublished.
-Khanna, K. (2026n, March 20). Build the Login page [Page implementation prompt submitted to OpenAI Codex]. Unpublished.
-Khanna, K. (2026o, March 20). Build the Dashboard page [Page implementation prompt submitted to OpenAI Codex]. Unpublished.
-Khanna, K. (2026p, March 20). Build ChatUploadBox [Component implementation prompt submitted to OpenAI Codex]. Unpublished.
-Khanna, K. (2026q, March 20). Build the Start New Check page [Page implementation prompt submitted to OpenAI Codex]. Unpublished.
-Khanna, K. (2026r, March 20). Build ContextForm [Component implementation prompt submitted to OpenAI Codex]. Unpublished.
-Khanna, K. (2026s, March 20). Build the Add Course Context page [Page implementation prompt submitted to OpenAI Codex]. Unpublished.
-Khanna, K. (2026t, March 20). Build ReviewCard [Component implementation prompt submitted to OpenAI Codex]. Unpublished.
-Khanna, K. (2026u, March 20). Build the Review Submission page [Page implementation prompt submitted to OpenAI Codex]. Unpublished.
-Khanna, K. (2026v, March 20). Build the result subcomponents [Result component prompt submitted to OpenAI Codex]. Unpublished.
-Khanna, K. (2026w, March 20). Build the Final Analysis page [Page implementation prompt submitted to OpenAI Codex]. Unpublished.
-Khanna, K. (2026x, March 20). Build the History page [Page implementation prompt submitted to OpenAI Codex]. Unpublished.
-Khanna, K. (2026y, March 20). Build the Learn More page and 404 page [Page implementation prompt submitted to OpenAI Codex]. Unpublished.
-Khanna, K. (2026z, March 20). Wire the frontend flow together with lightweight state [Frontend integration prompt submitted to OpenAI Codex]. Unpublished.
-Khanna, K. (2026aa, March 20). Build the backend core config, models, and storage [Backend infrastructure prompt submitted to OpenAI Codex]. Unpublished.
-Khanna, K. (2026ab, March 20). Build the backend routes [Backend API prompt submitted to OpenAI Codex]. Unpublished.
-Khanna, K. (2026ac, March 20). Build the retrieval and classification service stubs [Backend service prompt submitted to OpenAI Codex]. Unpublished.
-Khanna, K. (2026ad, March 20). Build the remaining backend helpers [Backend helper prompt submitted to OpenAI Codex]. Unpublished.
-Khanna, K. (2026ae, March 20). Add backend scripts and tests [Backend script and test prompt submitted to OpenAI Codex]. Unpublished.
-Khanna, K. (2026af, March 20). Lightly connect frontend to backend and do a cleanup pass [Frontend-backend integration prompt submitted to OpenAI Codex]. Unpublished.
-Khanna, K. (2026ag, March 20). Create a basic Playwright smoke test [Playwright test prompt submitted to OpenAI Codex]. Unpublished.
-Khanna, K. (2026ah, March 20). Add Playwright tests for the Start New Check page [Playwright test prompt submitted to OpenAI Codex]. Unpublished.
-Khanna, K. (2026ai, March 20). Add Playwright tests for the Add Course Context page [Playwright test prompt submitted to OpenAI Codex]. Unpublished.
-Khanna, K. (2026aj, March 20). Add Playwright tests for the Review Submission page [Playwright test prompt submitted to OpenAI Codex]. Unpublished.
-Khanna, K. (2026ak, March 20). Add Playwright tests for the Final Analysis and History pages [Playwright test prompt submitted to OpenAI Codex]. Unpublished.
-Khanna, K. (2026al, March 20). Add Playwright coverage for fallback behavior when backend or API fails [Playwright fallback prompt submitted to OpenAI Codex]. Unpublished.
-Khanna, K. (2026am, March 20). Add one full happy-path Playwright test across the main flow [Playwright end-to-end prompt submitted to OpenAI Codex]. Unpublished.
-Khanna, K. (2026an, March 20). Add a small navigation regression test set [Playwright regression prompt submitted to OpenAI Codex]. Unpublished.
-Khanna, K. (2026ao, March 20). Do a Playwright cleanup pass [Playwright suite maintenance prompt submitted to OpenAI Codex]. Unpublished.
-Khanna, K. (2026ap, March 20). Patch obvious weak spots [Playwright hardening prompt submitted to OpenAI Codex]. Unpublished.
+Add only minimal starter code so frontend and backend boot cleanly.
+
+Also fill:
+- README.md with project summary and setup
+- .env.example with Supabase URL/key, API_BASE_URL, CHROMA_PERSIST_DIR, LOCAL_LLM_ENDPOINT
+- root package.json with dev, dev:frontend, dev:backend
+- frontend/package.json with React, Vite, React Router, Supabase
+- backend/requirements.txt with FastAPI, uvicorn, pydantic, python-multipart, chromadb, httpx, beautifulsoup4, pytest, python-dotenv
+>>>
+
+Prompt 3
+<<<
+Fill in the root files.
+
+Only edit:
+- README.md
+- .env.example
+- package.json
+
+README:
+- short project description
+- stack summary
+- setup steps
+- note that frontend uses mock data first
+- note that this is a prototype
+
+.env.example:
+- VITE_SUPABASE_URL
+- VITE_SUPABASE_ANON_KEY
+- API_BASE_URL
+- CHROMA_PERSIST_DIR
+- LOCAL_LLM_ENDPOINT
+- SUPABASE_SERVICE_ROLE_KEY
+
+package.json:
+- dev
+- dev:frontend
+- dev:backend
+
+Keep it short and clean.
+
+Commit message:
+chore: add root project config
+>>>
+
+Prompt 4
+<<<
+Set up frontend bootstrap.
+
+Only edit:
+- frontend/package.json
+- frontend/index.html
+- frontend/src/main.jsx
+- frontend/src/App.jsx
+
+Requirements:
+- React + Vite
+- add React Router and Supabase deps
+- html title should be ChatGuard
+- main.jsx should import styles and render App
+- App.jsx can be very simple for now
+
+Commit message:
+chore: setup frontend bootstrap
+>>>
+
+Prompt 5
+<<<
+Set up backend bootstrap.
+
+Only edit:
+- backend/requirements.txt
+- backend/app/main.py
+
+requirements:
+- fastapi
+- uvicorn
+- pydantic
+- python-multipart
+- chromadb
+- httpx
+- beautifulsoup4
+- pytest
+- python-dotenv
+
+main.py:
+- create FastAPI app
+- add CORS
+- add /health route
+- leave router registration ready for later
+
+Keep it basic.
+
+Commit message:
+chore: setup backend bootstrap
+>>>
+
+Prompt 6
+<<<
+Do the global CSS.
+
+Only edit:
+- frontend/src/styles.css
+
+Add:
+- reset
+- base typography
+- app layout
+- left sidebar layout
+- top header layout
+- card styles
+- button styles
+- form spacing
+- badge styles
+- table/list row styles
+
+Style should feel clean, minimal, grayscale, academic. No gradients, no flashy stuff, no animations. Just like the wireframe image I uploaded
+
+Commit message:
+style: add global app styling
+>>>
+
+Prompt 7
+<<<
+Refer the wireframe and build the Sidebar and HeaderBar.
+
+Only edit:
+- frontend/src/components/Sidebar.jsx
+- frontend/src/components/HeaderBar.jsx
+
+Sidebar:
+- ChatGuard title
+- small subtitle: AI Safety for Students
+- New Check button
+- nav links: Dashboard, History
+- simple user area at bottom
+- active link highlight
+
+HeaderBar:
+- simple thin top bar
+- small brand text on left
+- avatar placeholder on right
+
+Keep them very simple and close to the mockup.
+
+Commit message:
+feat: add sidebar and header components
+>>>
+
+Prompt 8
+<<<
+Refer the wireframe and build the shared page shell.
+
+Only edit:
+- frontend/src/components/PageShell.jsx
+
+Need:
+- Sidebar on the left
+- HeaderBar at top of main area
+- consistent content padding
+- reusable layout wrapper
+
+Dont put page-specific logic in here.
+
+Commit message:
+feat: add shared page shell
+>>>
+
+Prompt 9
+<<<
+Refer the wireframe and build the reusable button components.
+
+Only edit:
+- frontend/src/components/PrimaryButton.jsx
+- frontend/src/components/SecondaryButton.jsx
+
+Need:
+- children
+- onClick
+- disabled
+- optional loading state
+- clean shared styling
+
+Primary should be darker.
+Secondary should be lighter/bordered.
+
+Commit message:
+feat: add reusable button components
+>>>
+
+Prompt 10
+<<<
+Refer the wireframe and build the basic form input components.
+
+Only edit:
+- frontend/src/components/TextInput.jsx
+- frontend/src/components/SelectInput.jsx
+- frontend/src/components/CheckboxField.jsx
+- frontend/src/components/UploadDropzone.jsx
+
+Need:
+TextInput
+- label
+- input
+- helper/error text
+
+SelectInput
+- label
+- select
+- helper/error text
+
+CheckboxField
+- checkbox
+- label
+- helper text
+
+UploadDropzone
+- simple upload area
+- selected file name
+- replace/remove action
+
+Keep it straightforward, not overengineered.
+
+Commit message:
+feat: add reusable form components
+>>>
+
+Prompt 11
+<<<
+Refer the wireframe and build the utility UI components.
+
+Only edit:
+- frontend/src/components/SectionCard.jsx
+- frontend/src/components/EmptyState.jsx
+- frontend/src/components/LoadingState.jsx
+- frontend/src/components/StatusBadge.jsx
+
+Need:
+- SectionCard: bordered reusable card
+- EmptyState: title, desc, optional action
+- LoadingState: very simple loading block
+- StatusBadge variants for draft, likely allowed, allowed with advisory, needs caution, high risk
+
+Commit message:
+feat: add utility ui components
+>>>
+
+Prompt 12
+<<<
+Refer the wireframe and build TopProgress and the router skeleton.
+
+Only edit:
+- frontend/src/components/TopProgress.jsx
+- frontend/src/router.jsx
+
+TopProgress:
+1. Paste Conversation
+2. Add Course Context
+3. Review
+4. Final Analysis
+
+Router:
+- /login
+- /
+- /check/start
+- /check/context
+- /check/review
+- /check/result/:id
+- /history
+- /learn-more
+- *
+
+Use basic placeholder pages if needed for now.
+
+Commit message:
+feat: add progress stepper and router skeleton
+>>>
+
+Prompt 13
+<<<
+Set up auth helper and mock data files.
+usr: Chatguard Pwd: [REDACTED]
+Project url: https://cxutncfzcstnyptyuywg.supabase.co
+key: [REDACTED]
+Direct connection string: postgresql://postgres:[YOUR-PASSWORD]@db.cxutncfzcstnyptyuywg.supabase.co:5432/postgres
+Only edit:
+- frontend/src/lib/supabaseClient.js
+- frontend/src/data/mockAnalysis.js
+- frontend/src/data/mockHistory.js
+
+Supabase client:
+- Put creads in .env and put a sample in .env.example. Make sure .env is in git igore, you can push .env.example
+mockAnalysis:
+- one realistic result object
+
+mockHistory:
+- 4 realistic items, mix of draft + completed
+
+Keep the data believable but simple.
+
+Commit message:
+chore: add supabase client and mock data
+>>>
+
+Prompt 14
+<<<
+Refer wireframe and build the Login page.
+
+Only edit:
+- frontend/src/pages/LoginPage.jsx
+
+Need:
+- centered auth card
+- title Welcome to ChatGuard
+- Log In / Sign Up toggle
+- University Email
+- Password
+- Continue button
+
+Behavior:
+- minimal validation
+- on success go to /
+
+No social logins. Keep it clean and kinda plain.
+
+Commit message:
+feat: build login page
+>>>
+
+Prompt 15
+<<<
+refer wireframe and build the Dashboard page.
+
+Only edit:
+- frontend/src/pages/DashboardPage.jsx
+
+Need:
+- heading Check your AI conversation before you submit
+- short subtitle
+- Start New Check button -> /check/start
+- Learn More button -> /learn-more
+- 3 cards:
+  - Paste full AI conversation
+  - Add course context
+  - Receive verdict and reasoning
+
+Use PageShell. Dont add charts or extra dashboard junk.
+
+Commit message:
+feat: build dashboard page
+>>>
+
+Prompt 16
+<<<
+refer wireframe and build ChatUploadBox.
+
+Only edit:
+- frontend/src/components/ChatUploadBox.jsx
+
+Need:
+- textarea for pasted conversation
+- optional text file upload
+- show selected filename
+- basic validation that there is text or a file
+
+No backend stuff yet. Just the UI and local behavior.
+
+Commit message:
+feat: add chat upload box
+>>>
+
+Prompt 17
+<<<
+refer wireframe and build the Start New Check page.
+
+Only edit:
+- frontend/src/pages/StartCheckPage.jsx
+
+Need:
+- title Start a New Check
+- short subtitle
+- ChatUploadBox on left
+- right side cards: Pro Tips and Why is this important?
+- confirmation checkbox
+- continue button
+- TopProgress step 1
+
+Behavior:
+- continue disabled until input exists and checkbox is checked
+- continue -> /check/context
+
+Keep the layout close to the screenshot.
+
+Commit message:
+feat: build start check page
+>>>
+
+Prompt 18
+<<<
+refer wireframe and build ContextForm.
+
+Only edit:
+- frontend/src/components/ContextForm.jsx
+
+Fields:
+- institution
+- courseCode
+- isUofTStudent
+- assignmentType
+- studentStatus
+- syllabusFile
+
+Assignment types:
+- Essay
+- Research paper
+- Coding assignment
+- Problem set
+- Lab report
+- Presentation
+
+Student statuses:
+- Undergraduate
+- Graduate
+- Continuing education
+
+Make it controlled and reusable.
+
+Commit message:
+feat: add course context form
+>>>
+
+Prompt 19
+<<<
+refer wireframe and build the Add Course Context page.
+
+Only edit:
+- frontend/src/pages/CourseContextPage.jsx
+
+Need:
+- title Add Course Context
+- short subtitle
+- left side:
+  - Educational Institution section
+  - Assignment & Status section
+- right side:
+  - Why context matters card
+  - syllabus upload card
+- Back and Continue buttons
+- TopProgress step 2
+
+Behavior:
+- Back -> /check/start
+- Continue -> /check/review
+- show selected syllabus filename if present
+
+Dont add extra feilds.
+
+Commit message:
+feat: build course context page
+>>>
+
+Prompt 20
+<<<
+refer wireframe and build ReviewCard.
+
+Only edit:
+- frontend/src/components/ReviewCard.jsx
+
+Need:
+- reusable bordered review section
+- title
+- body/content area
+- optional action button
+
+Keep it simple and easy to reuse.
+
+Commit message:
+feat: add review card component
+>>>
+
+Prompt 21
+<<<
+refer wireframe and build the Review Submission page.
+
+Only edit:
+- frontend/src/pages/ReviewPage.jsx
+
+Need:
+- title Review Submission
+- short subtitle
+- top official rules notice
+- 3 review sections:
+  - Conversation Preview
+  - Course Info Summary
+  - Additional Resource Uploaded
+- actions:
+  - Edit Conversation
+  - Edit Course Info
+  - Change File
+- bottom buttons:
+  - Save as Draft
+  - Submit Check
+- TopProgress step 3
+
+Behavior:
+- Edit Conversation -> /check/start
+- Edit Course Info -> /check/context
+- Save as Draft -> /history
+- Submit Check -> /check/result/mock-check-001
+
+Commit message:
+feat: build review page
+>>>
+
+Prompt 22
+<<<
+refer wireframe and bild the result subcomponents.
+
+Only edit:
+- frontend/src/components/VerdictCard.jsx
+- frontend/src/components/ReasoningList.jsx
+- frontend/src/components/PolicyMatchList.jsx
+- frontend/src/components/SaferNextSteps.jsx
+
+Need:
+VerdictCard
+- summary
+- suspected course
+- classification
+- risk level
+
+ReasoningList
+- clean list of reasons
+
+PolicyMatchList
+- course code
+- section title
+- snippet
+
+SaferNextSteps
+- list of safer educational next steps
+
+Commit message:
+feat: add result page components
+>>>
+
+Prompt 23
+<<<
+refer wireframe and build build the Final Analysis page.
+
+Only edit:
+- frontend/src/pages/ResultPage.jsx
+
+Need:
+- small analysis id
+- title Final Analysis
+- top-right status badge
+- verdict summary area
+- 3 summary boxes:
+  - Suspected Course
+  - Classification
+  - Risk Profile
+- sections:
+  - Reasoning Behind Verdict
+  - Matched Policies
+  - Safer Next Steps
+- bottom buttons:
+  - Start New Check
+  - Save Result
+- TopProgress step 4
+
+Use mockAnalysis for now.
+Tone should be advisory, not super absolute or legal sounding.
+
+Commit message:
+feat: build final analysis page
+>>>
+
+Prompt 24
+<<<
+refer wireframe and build the History page.
+
+Only edit:
+- frontend/src/pages/HistoryPage.jsx
+
+Need:
+- title History
+- list or table from mockHistory
+- columns/info for id or title, date, course code, status, decision, action
+- use EmptyState if empty
+
+Keep it simple and readable.
+
+Commit message:
+feat: build history page
+>>>
+
+Prompt 25
+<<<
+refer wireframe and build the Learn More page and 404 page.
+
+Only edit:
+- frontend/src/pages/LearnMorePage.jsx
+- frontend/src/pages/NotFoundPage.jsx
+
+Learn More:
+- explain what ChatGuard is
+- what it checks
+- why full context matters
+- why course context matters
+- privacy/consent note
+
+404:
+- simple message
+- button back to dashboard
+
+Keep both pages short and pretty plain.
+
+Commit message:
+feat: build info and not found pages
+>>>
+
+Prompt 26
+<<<
+Wire the frontend flow together with lightweight state.
+
+Only edit:
+- frontend/src/App.jsx
+- frontend/src/router.jsx
+- frontend/src/lib/api.js
+- frontend/src/pages/LoginPage.jsx
+- frontend/src/pages/StartCheckPage.jsx
+- frontend/src/pages/CourseContextPage.jsx
+- frontend/src/pages/ReviewPage.jsx
+- frontend/src/pages/ResultPage.jsx
+- add one small state/context file if needed
+
+Store:
+- conversationText
+- conversationFile
+- confirmationChecked
+- institution
+- courseCode
+- isUofTStudent
+- assignmentType
+- studentStatus
+- syllabusFile
+
+Behavior:
+- login success -> /
+- start -> context
+- context -> review
+- review submit -> result
+- save draft -> history
+
+api.js should expose mocked wrappers:
+- submitCheck
+- saveDraft
+- getCheckById
+- getHistory
+- uploadConversationFile
+- uploadSyllabusFile
+
+Dont use a heavy state library.
+
+Commit message:
+feat: wire frontend flow and state
+>>>
+
+Prompt 27
+<<<
+Build the backend core config/models/storage.
+
+Only edit:
+- backend/app/config.py
+- backend/app/schemas.py
+- backend/app/storage.py
+
+Requirements:
+- config.py loads env vars for frontend origin, chroma dir, llm endpoint, upload dir
+- schemas.py defines:
+  - CourseContext
+  - CheckSubmission
+  - PolicyChunk
+  - CheckResult
+  - HistoryItem
+- storage.py uses simple in-memory or local JSON logic with save/get/list methods for checks and drafts
+
+Keep it small and readable, dont overcomplicate it.
+
+Commit message:
+feat: add backend config schemas and storage
+
+If git is set up, commit and push. If push fails, say exactly why.
+>>>
+
+Prompt 28
+<<<
+Build the backend routes.
+
+Only edit:
+- backend/app/routes/auth.py
+- backend/app/routes/checks.py
+- backend/app/routes/history.py
+- backend/app/routes/upload.py
+- backend/app/main.py if needed
+
+Requirements:
+- auth route: session placeholder
+- checks routes:
+  - POST /checks/analyze
+  - POST /checks/draft
+  - GET /checks/{id}
+- history route:
+  - GET /history
+- upload routes:
+  - POST /upload/conversation
+  - POST /upload/syllabus
+- register routers in main.py if needed
+
+Use stub logic for now, but keep response shpaes clean.
+
+Commit message:
+feat: add backend api routes
+
+If git is set up, commit and push. If push fails, say exactly why.
+>>>
+
+Prompt 29
+<<<
+Build the retrieval/classification service stubs.
+
+Only edit:
+- backend/app/services/parser.py
+- backend/app/services/retrieval.py
+- backend/app/services/classifier.py
+- backend/app/services/kimi_client.py
+
+Requirements:
+- parser should look for academic integrity / AI use sections
+- retrieval should return placeholder policy chunks
+- classifier should return a structured mock result
+- kimi_client should be a simple placeholder adapter
+
+Keep everythng lightweight and easy to swap later.
+
+Commit message:
+feat: add backend analysis service stubs
+
+If git is set up, commit and push. If push fails, say exactly why.
+>>>
+
+Prompt 30
+<<<
+Build the remaining backend helpers.
+
+Only edit:
+- backend/app/services/scraper.py
+- backend/app/services/chroma_store.py
+- backend/app/services/draft_store.py
+- backend/app/prompts/classify_check.txt
+- backend/app/utils/text.py
+- backend/app/utils/files.py
+
+Requirements:
+- scraper can be a simple scaffold
+- chroma_store can be a simple scaffold
+- draft_store should help with draft reads/writes
+- classify_check.txt should ask for strict JSON output
+- text.py should have basic clean/chunk helpers
+- files.py should have basic text file handling
+
+Keep it simple, not production heavy.
+
+Commit message:
+feat: add backend helper services and utils
+
+If git is set up, commit and push. If push fails, say exactly why.
+>>>
+
+Prompt 31
+<<<
+Add backend scripts and tests.
+
+Only edit:
+- backend/scripts/scrape_syllabi.py
+- backend/scripts/parse_syllabi.py
+- backend/scripts/seed_chroma.py
+- backend/tests/test_checks.py
+- backend/tests/test_parser.py
+- backend/tests/test_retrieval.py
+
+Requirements:
+- scripts can be scaffolds with clear structure
+- tests can be lightweight and aligned with the stubs
+- test analyze endpoint shape
+- test parser section detection
+- test retrieval return format
+
+Dont make these too deep right now.
+
+Commit message:
+chore: add backend scripts and tests
+
+If git is set up, commit and push. If push fails, say exactly why.
+>>>
+
+Prompt 32
+<<<
+Now lightly connect frontend to backend and do a cleanup pass.
+
+Only edit:
+- frontend/src/lib/api.js
+- frontend/src/pages/ReviewPage.jsx
+- frontend/src/pages/ResultPage.jsx
+- frontend/src/pages/HistoryPage.jsx
+- any other file only if needed for a small fix
+
+Requirements:
+- api.js should call backend first and fall back to mock data if backend fails
+- Save as Draft should use saveDraft
+- Submit Check should use submitCheck
+- History page should use getHistory
+
+Then do small cleanup only:
+- fix imports
+- fix route issues
+- remove obvious duplicate code
+- make sure frontend and backend both run
+- dont redesign anythng
+- dont add features
+
+At the end:
+- list files changed
+- list what is still stubbed
+- list exact run commands
+
+Commit message:
+feat: connect frontend to backend and cleanup
+
+If git is set up, commit and push. If push fails, say exactly why.
+>>>
+
+Prompt 33
+<<<
+Create a basic Playwright smoke test. Use Playwright MCP
+
+Only edit:
+- one new Playwright test file
+
+Test should check:
+- app loads
+- login page renders
+- dashboard can be reached after mocked/simple login
+- Dashboard heading appears
+
+Keep it very simple for now, just a first sanoty test.
+
+Commit message:
+test: add basic app smoke test
+
+If git is set up, commit and push. If push fails, say exactly why.
+>>>
+
+Prompt 34
+<<<
+Add Playwright tests for the Start New Check page.
+
+Only edit:
+- one Playwright test file, or extend the existing e2e test file
+
+Test these:
+- Start New Check page loads
+- continue button is disabled by default
+- entering conversation text alone is not enough if checkbox isnt checked
+- once text is present and checkbox is checked, continue becomes enabled
+- continue goes to /check/context
+
+Keep the test straitforward and not too fancy.
+
+Commit message:
+test: cover start check flow
+
+If git is set up, commit and push. If push fails, say exactly why.
+>>>
+
+Prompt 35
+<<<
+Add Playwright tests for the Add Course Context page.
+
+Only edit:
+- one Playwright test file, or extend the current one
+
+Test these:
+- page renders
+- fields exist:
+  - institution
+  - course code
+  - UofT checkbox
+  - assignment type
+  - student status
+- Back goes to /check/start
+- filling valid values and continuing goes to /check/review
+
+Keep selectors stable and readable.
+
+Commit message:
+test: cover course context page
+
+If git is set up, commit and push. If push fails, say exactly why.
+>>>
+
+Prompt 36
+<<<
+Add Playwright tests for the Review Submission page.
+
+Only edit:
+- one Playwright test file, or extend the current one
+
+Test these:
+- review page renders
+- conversation preview shows up
+- course info summary shows up
+- Save as Draft goes to /history
+- Submit Check goes to /check/result/mock-check-001
+- Edit Conversation goes back to /check/start
+- Edit Course Info goes back to /check/context
+
+Dont make the test too brittle.
+
+Commit message:
+test: cover review page actions
+
+If git is set up, commit and push. If push fails, say exactly why.
+>>>
+
+Prompt 37
+<<<
+Add Playwright tests for the Final Analysis and History pages.
+
+Only edit:
+- one Playwright test file, or extend the current one
+
+Test these:
+- Result page renders
+- Final Analysis heading appears
+- status badge appears
+- reasoning section appears
+- Start New Check button goes to /check/start
+
+Also test History:
+- History page renders
+- mock history rows render
+- opening a completed item works if that behavior exists
+
+Keep it simple and human readable.
+
+Commit message:
+test: cover result and history pages
+
+If git is set up, commit and push. If push fails, say exactly why.
+>>>
+
+Prompt 38
+<<<
+Add Playwright coverage for fallback behavior when backend/API fails.
+
+Only edit:
+- Playwright test files only
+- maybe minimal test helper files if needed
+
+Test this:
+- if backend calls fail, frontend still falls back to mock data
+- review submit still lands on result page using fallback behavior
+- history page still shows fallback/mock state if API isnt availible
+
+Dont rewrite app logic here unless absolutely needed.
+
+Commit message:
+test: cover api fallback behavior
+
+If git is set up, commit and push. If push fails, say exactly why.
+>>>
+
+Prompt 39
+<<<
+Add one full happy-path Playwright test across the main flow.
+
+Only edit:
+- one Playwright test file, or extend the current one
+
+Flow:
+- login
+- dashboard
+- start new check
+- enter conversation
+- check confirmation box
+- continue
+- fill course context
+- continue
+- review page
+- submit
+- result page appears
+
+This should be one clear end-to-end flow test. Use mocked/local behavior only, not real backend dependency.
+
+Commit message:
+test: add happy path e2e flow
+
+If git is set up, commit and push. If push fails, say exactly why.
+>>>
+
+Prompt 40
+<<<
+Add a small navigation regression test set.
+
+Only edit:
+- Playwright test files only
+
+Test these routes/pages:
+- /login
+- /
+- /check/start
+- /check/context
+- /check/review
+- /check/result/mock-check-001
+- /history
+- /learn-more
+- 404 page
+
+Goal:
+make sure the main pages render and obvious nav links/buttons work.
+
+Commit message:
+test: add route regression coverage
+
+If git is set up, commit and push. If push fails, say exactly why.
+>>>
+
+Prompt 41
+<<<
+Do a Playwright cleanup pass.
+
+Only edit:
+- Playwright config
+- Playwright test files
+- tiny app changes only if really needed for test stability
+
+Goals:
+- remove duplicate setup
+- keep selectors clean
+- make tests less flaky
+- dont add extra features
+- dont redesign the UI
+
+At the end tell me:
+- which tests exist
+- which ones are still stubby or weak
+- exact command to run them
+
+Commit message:
+test: cleanup playwright suite
+
+If git is set up, commit and push. If push fails, say exactly why.
+>>>
+
+Prompt 42
+<<<
+atch obvious weak spots.
+
+Only edit what is needed for small fixes.
+
+Goals:
+- fix flaky waits
+- use better selectors
+- keep tests readable
+- keep app behavior the same
+
+At the end give me:
+- files changed
+- exact run commands
+- any tests that may still fail and why
+
+Commit message:
+test: harden playwright tests
+
+If git is set up, commit and push. If push fails, say exactly why.
+>>>
+
+Prompt 43
+<<<
+Create an attribution.txt  in apa format. Cite all the prompts that I gave you tti apa standards to get attribution for your work. 
+>>>
+
+Prompt 44
+<<<
+Cite that you made attribution.txt within attribution.txt, just to be safe 
+>>>
+
+Prompt 45
+<<<
+run all tests that you created, patch syntax in feedback loop as needed 
+>>>
+
+Prompt 46
+<<<
+run everything in the browser with mock data to make sure everything works. Continue testing until all your changes are stable. Make a commit STABLE and push once you are satisfied. 
+>>>
+
+Prompt 47
+<<<
+Make a git.ignore file and push changes. Make a start.sh file to start all services
+>>>
+
+Prompt 48
+<<<
+Can you help me deploy on vercel via cli?
+>>>
+
+Prompt 49
+<<<
+Are we running Kimi K2 in the backend?
+>>>
+
+Prompt 50
+<<<
+I asked you to make a .env using my supabase creads, thats not done. Can you also download kim-k2 locally and maybe run it locally for the user. 
+>>>
+
+Prompt 51
+<<<
+You may use another light weight LLM like qwen 
+>>>
+
+Prompt 52
+<<<
+Please document this finding that kimi k2 is not appropriate. Record this in findings.txt
+>>>
+
+Prompt 53
+<<<
+Please update attribution.txt, mention that this file is AI generated. Put AI generated lable on all files (except the wireframe). Make sre that attribution.txt has all my chat prompts in the way I typed them. DO NOT REWORD MY PROMPTS, it is critical. 
+>>>

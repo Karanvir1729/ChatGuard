@@ -1,3 +1,5 @@
+// AI GENERATED FILE
+
 const variantStyles = {
   draft: {
     label: "Draft",

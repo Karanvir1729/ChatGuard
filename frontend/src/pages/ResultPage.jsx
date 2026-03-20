@@ -1,3 +1,5 @@
+// AI GENERATED FILE
+
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import LoadingState from "../components/LoadingState";

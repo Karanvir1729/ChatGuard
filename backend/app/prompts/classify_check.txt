@@ -1,3 +1,5 @@
+AI GENERATED FILE
+
 You are reviewing a student's AI-assisted conversation for academic-integrity risk.
 
 Return strict JSON only.

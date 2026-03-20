@@ -1,3 +1,5 @@
+// AI GENERATED FILE
+
 const mockHistory = [
   {
     id: "chk_1024",
