@@ -6,9 +6,7 @@ function escapeForRegex(value) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
-test("app loads, renders login, and reaches dashboard after simple login", async ({
-  page
-}) => {
+async function mockSupabaseAuth(page) {
   await page.route("**/auth/v1/**", async (route) => {
     await route.fulfill({
       status: 200,
@@ -28,6 +26,10 @@ test("app loads, renders login, and reaches dashboard after simple login", async
       })
     });
   });
+}
+
+async function loginToDashboard(page) {
+  await mockSupabaseAuth(page);
 
   await page.goto(`${APP_URL}/login`);
 
@@ -41,9 +43,49 @@ test("app loads, renders login, and reaches dashboard after simple login", async
   await page.getByRole("button", { name: "Continue" }).click();
 
   await expect(page).toHaveURL(new RegExp(`^${escapeForRegex(APP_URL)}/?$`));
+}
+
+test("app loads, renders login, and reaches dashboard after simple login", async ({
+  page
+}) => {
+  await loginToDashboard(page);
+
   await expect(
     page.getByRole("heading", {
       name: "Check your AI conversation before you submit"
     })
   ).toBeVisible();
+});
+
+test("start new check requires text and confirmation before continuing", async ({
+  page
+}) => {
+  await loginToDashboard(page);
+
+  await page.goto(`${APP_URL}/check/start`);
+
+  await expect(
+    page.getByRole("heading", { name: "Start a New Check" })
+  ).toBeVisible();
+
+  const continueButton = page.getByRole("button", { name: "Continue" });
+  const conversationInput = page.getByLabel("AI Conversation");
+  const confirmationCheckbox = page.getByLabel(
+    "I confirm this conversation is complete and belongs to the submission I want checked."
+  );
+
+  await expect(continueButton).toBeDisabled();
+
+  await conversationInput.fill(
+    "User: Can you help me outline my essay?\nAssistant: Yes, here is a possible structure."
+  );
+  await expect(continueButton).toBeDisabled();
+
+  await confirmationCheckbox.check();
+  await expect(continueButton).toBeEnabled();
+
+  await continueButton.click();
+  await expect(page).toHaveURL(
+    new RegExp(`^${escapeForRegex(APP_URL)}/check/context$`)
+  );
 });
