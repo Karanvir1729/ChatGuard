@@ -481,3 +481,103 @@ test("happy path e2e flow goes from login to final analysis", async ({ page }) =
     page.getByRole("heading", { name: "Final Analysis" })
   ).toBeVisible();
 });
+
+test("main routes render their primary pages", async ({ page }) => {
+  await mockCheckById(page, "mock-check-001");
+  await mockHistoryItems(page, [
+    {
+      id: "hist-check-001",
+      title: "Reflection Memo 2",
+      course_code: "EDS345",
+      status: "completed",
+      decision: "Allowed With Advisory",
+      updated_at: "2026-03-20T10:19:00Z"
+    }
+  ]);
+
+  await page.goto(`${APP_URL}/login`);
+  await expect(
+    page.getByRole("heading", { name: "Welcome to ChatGuard" })
+  ).toBeVisible();
+
+  await loginToDashboard(page);
+  await expect(
+    page.getByRole("heading", {
+      name: "Check your AI conversation before you submit"
+    })
+  ).toBeVisible();
+
+  await page.goto(`${APP_URL}/check/start`);
+  await expect(
+    page.getByRole("heading", { name: "Start a New Check" })
+  ).toBeVisible();
+
+  await page.goto(`${APP_URL}/check/context`);
+  await expect(
+    page.getByRole("heading", { name: "Add Course Context" })
+  ).toBeVisible();
+
+  await page.goto(`${APP_URL}/check/review`);
+  await expect(
+    page.getByRole("heading", { name: "Review Submission" })
+  ).toBeVisible();
+
+  await page.goto(`${APP_URL}/check/result/mock-check-001`);
+  await expect(
+    page.getByRole("heading", { name: "Final Analysis" })
+  ).toBeVisible();
+
+  await page.goto(`${APP_URL}/history`);
+  await expect(page.getByRole("heading", { name: "History" })).toBeVisible();
+
+  await page.goto(`${APP_URL}/learn-more`);
+  await expect(
+    page.getByRole("heading", { name: "Learn More" })
+  ).toBeVisible();
+
+  await page.goto(`${APP_URL}/route-that-does-not-exist`);
+  await expect(
+    page.getByText("Page not found", { exact: true })
+  ).toBeVisible();
+});
+
+test("obvious navigation links and buttons work across the main pages", async ({
+  page
+}) => {
+  await mockCheckById(page, "hist-check-001", {
+    suspected_course: "EDS345"
+  });
+  await mockHistoryItems(page, [
+    {
+      id: "hist-check-001",
+      title: "Reflection Memo 2",
+      course_code: "EDS345",
+      status: "completed",
+      decision: "Allowed With Advisory",
+      updated_at: "2026-03-20T10:19:00Z"
+    }
+  ]);
+  await loginToDashboard(page);
+
+  await page.getByRole("button", { name: "Learn More" }).click();
+  await expect(page).toHaveURL(
+    new RegExp(`^${escapeForRegex(APP_URL)}/learn-more$`)
+  );
+
+  await page.getByRole("link", { name: "History" }).click();
+  await expect(page).toHaveURL(
+    new RegExp(`^${escapeForRegex(APP_URL)}/history$`)
+  );
+
+  await page.getByRole("link", { name: "Dashboard" }).click();
+  await expect(page).toHaveURL(new RegExp(`^${escapeForRegex(APP_URL)}/?$`));
+
+  await page.getByRole("button", { name: "Start New Check" }).click();
+  await expect(page).toHaveURL(
+    new RegExp(`^${escapeForRegex(APP_URL)}/check/start$`)
+  );
+
+  await page.goto(`${APP_URL}/missing-page`);
+  await page.getByRole("button", { name: "Back to Dashboard" }).click();
+  await expect(page).toHaveURL(new RegExp(`^${escapeForRegex(APP_URL)}/?$`));
+});
