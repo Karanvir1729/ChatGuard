@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 const API_URL = process.env.PLAYWRIGHT_API_URL || "http://127.0.0.1:8000";
+const RESULT_STATUS = "Allowed With Advisory";
 
 const ROUTES = {
   login: "/login",
@@ -51,6 +52,25 @@ const VALUES = {
     "User: Can you help me plan my coding assignment?\nAssistant: Yes, here is a step-by-step outline you can review and adapt."
 };
 
+const DEFAULT_HISTORY_ITEMS = [
+  {
+    id: "hist-check-001",
+    title: "Reflection Memo 2",
+    course_code: "EDS345",
+    status: "completed",
+    decision: RESULT_STATUS,
+    updated_at: "2026-03-20T10:19:00Z"
+  },
+  {
+    id: "hist-draft-001",
+    title: "Lab Summary Draft",
+    course_code: "BIO201",
+    status: "draft",
+    decision: "Draft",
+    updated_at: "2026-03-19T18:42:00Z"
+  }
+];
+
 function escapeForRegex(value) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
@@ -66,7 +86,7 @@ function buildCheckPayload(checkId, overrides = {}) {
     summary:
       "This review suggests the conversation reads like planning and revision support.",
     suspected_course: VALUES.courseCode,
-    classification: "Allowed With Advisory",
+    classification: RESULT_STATUS,
     risk_level: "Minimal",
     reasoning: [
       "The conversation appears to support planning and revision rather than direct answer submission."
@@ -160,34 +180,55 @@ async function failApiRequests(page, paths) {
 }
 
 async function expectHeading(page, heading) {
-  await expect(page.getByRole("heading", { name: heading })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: heading, exact: true }).first()
+  ).toBeVisible();
 }
 
 async function expectPath(page, path) {
   await expect.poll(() => new URL(page.url()).pathname).toBe(path);
 }
 
+async function goToAndExpectHeading(page, path, heading) {
+  await page.goto(path);
+  await expectPath(page, path);
+  await expectHeading(page, heading);
+}
+
+function statusBadge(page, label = RESULT_STATUS) {
+  return page.locator("span").filter({ hasText: label }).first();
+}
+
+function historyRow(page, title) {
+  return page.locator("div").filter({
+    has: page.getByText(title, { exact: true }),
+    hasText: title
+  }).filter({
+    has: page.getByRole("button")
+  }).first();
+}
+
 async function loginToDashboard(page) {
-  await page.goto(ROUTES.login);
+  await goToAndExpectHeading(page, ROUTES.login, HEADINGS.login);
   await expect(page).toHaveTitle(/ChatGuard/i);
-  await expectHeading(page, HEADINGS.login);
 
   await page.getByLabel(LABELS.email).fill(VALUES.email);
   await page.getByLabel(LABELS.password).fill(VALUES.password);
   await page.getByRole("button", { name: "Continue" }).click();
 
   await expectPath(page, ROUTES.dashboard);
+  await expectHeading(page, HEADINGS.dashboard);
 }
 
 async function completeStartCheckStep(page, conversation = VALUES.conversation) {
-  await page.goto(ROUTES.start);
-  await expectHeading(page, HEADINGS.start);
+  await goToAndExpectHeading(page, ROUTES.start, HEADINGS.start);
 
   await page.getByLabel(LABELS.conversation).fill(conversation);
   await page.getByLabel(LABELS.confirmation).check();
   await page.getByRole("button", { name: "Continue" }).click();
 
   await expectPath(page, ROUTES.context);
+  await expectHeading(page, HEADINGS.context);
 }
 
 async function completeCourseContextStep(page) {
@@ -201,6 +242,7 @@ async function completeCourseContextStep(page) {
   await page.getByRole("button", { name: "Continue" }).click();
 
   await expectPath(page, ROUTES.review);
+  await expectHeading(page, HEADINGS.review);
 }
 
 async function reachReviewPage(page, conversation = VALUES.conversation) {
@@ -224,8 +266,7 @@ test("start new check requires text and confirmation before continuing", async (
   page
 }) => {
   await loginToDashboard(page);
-  await page.goto(ROUTES.start);
-  await expectHeading(page, HEADINGS.start);
+  await goToAndExpectHeading(page, ROUTES.start, HEADINGS.start);
 
   const continueButton = page.getByRole("button", { name: "Continue" });
 
@@ -244,8 +285,7 @@ test("course context page renders fields and routes back or forward correctly", 
   page
 }) => {
   await loginToDashboard(page);
-  await page.goto(ROUTES.context);
-  await expectHeading(page, HEADINGS.context);
+  await goToAndExpectHeading(page, ROUTES.context, HEADINGS.context);
 
   await expect(page.getByLabel(LABELS.institution)).toBeVisible();
   await expect(page.getByLabel(LABELS.courseCode)).toBeVisible();
@@ -255,8 +295,9 @@ test("course context page renders fields and routes back or forward correctly", 
 
   await page.getByRole("button", { name: "Back" }).click();
   await expectPath(page, ROUTES.start);
+  await expectHeading(page, HEADINGS.start);
 
-  await page.goto(ROUTES.context);
+  await goToAndExpectHeading(page, ROUTES.context, HEADINGS.context);
   await completeCourseContextStep(page);
 });
 
@@ -265,16 +306,20 @@ test("review page shows the submission summary and edit actions route correctly"
 }) => {
   await reachReviewPage(page);
   await expectHeading(page, HEADINGS.review);
-  await expect(page.getByText("User: Can you help me outline my essay?", { exact: false })).toBeVisible();
-  await expect(page.getByText(VALUES.institution)).toBeVisible();
-  await expect(page.getByText(VALUES.courseCode)).toBeVisible();
+  await expect(
+    page.getByText("User: Can you help me outline my essay?", { exact: false })
+  ).toBeVisible();
+  await expect(page.getByText(VALUES.institution, { exact: true })).toBeVisible();
+  await expect(page.getByText(VALUES.courseCode, { exact: true })).toBeVisible();
 
   await page.getByRole("button", { name: "Edit Conversation" }).click();
   await expectPath(page, ROUTES.start);
+  await expectHeading(page, HEADINGS.start);
 
   await reachReviewPage(page);
   await page.getByRole("button", { name: "Edit Course Info" }).click();
   await expectPath(page, ROUTES.context);
+  await expectHeading(page, HEADINGS.context);
 });
 
 test("review page save as draft routes to history", async ({ page }) => {
@@ -299,45 +344,29 @@ test("result page renders key analysis sections and start new check routes back"
   await mockCheckById(page, "mock-check-001");
   await loginToDashboard(page);
 
-  await page.goto(ROUTES.result);
-  await expectHeading(page, HEADINGS.result);
-  await expect(page.getByText("Allowed With Advisory")).toBeVisible();
+  await goToAndExpectHeading(page, ROUTES.result, HEADINGS.result);
+  await expect(statusBadge(page)).toBeVisible();
   await expect(page.getByText("Reasoning Behind Verdict")).toBeVisible();
 
   await page.getByRole("button", { name: "Start New Check" }).click();
   await expectPath(page, ROUTES.start);
+  await expectHeading(page, HEADINGS.start);
 });
 
 test("history page renders rows and can open a completed item", async ({ page }) => {
-  await mockHistoryItems(page, [
-    {
-      id: "hist-check-001",
-      title: "Reflection Memo 2",
-      course_code: "EDS345",
-      status: "completed",
-      decision: "Allowed With Advisory",
-      updated_at: "2026-03-20T10:19:00Z"
-    },
-    {
-      id: "hist-draft-001",
-      title: "Lab Summary Draft",
-      course_code: "BIO201",
-      status: "draft",
-      decision: "Draft",
-      updated_at: "2026-03-19T18:42:00Z"
-    }
-  ]);
+  await mockHistoryItems(page, DEFAULT_HISTORY_ITEMS);
   await mockCheckById(page, "hist-check-001", {
     suspected_course: "EDS345"
   });
   await loginToDashboard(page);
 
-  await page.goto(ROUTES.history);
-  await expectHeading(page, HEADINGS.history);
+  await goToAndExpectHeading(page, ROUTES.history, HEADINGS.history);
   await expect(page.getByText("Reflection Memo 2")).toBeVisible();
   await expect(page.getByText("Lab Summary Draft")).toBeVisible();
 
-  await page.getByRole("button", { name: "View" }).click();
+  await historyRow(page, "Reflection Memo 2")
+    .getByRole("button", { name: "View" })
+    .click();
   await expectPath(page, "/check/result/hist-check-001");
   await expectHeading(page, HEADINGS.result);
 });
@@ -351,7 +380,7 @@ test("review submit falls back to mock result when backend analyze calls fail", 
   await page.getByRole("button", { name: "Submit Check" }).click();
   await expectPath(page, ROUTES.result);
   await expectHeading(page, HEADINGS.result);
-  await expect(page.getByText("Allowed With Advisory")).toBeVisible();
+  await expect(statusBadge(page)).toBeVisible();
   await expect(
     page.getByText("brainstorming, outlining, and language cleanup", {
       exact: false
@@ -365,12 +394,13 @@ test("history page falls back to mock rows when the history api is unavailable",
   await failApiRequests(page, ["/history", "/checks/chk_1024"]);
   await loginToDashboard(page);
 
-  await page.goto(ROUTES.history);
-  await expectHeading(page, HEADINGS.history);
+  await goToAndExpectHeading(page, ROUTES.history, HEADINGS.history);
   await expect(page.getByText("Reflection Memo 2")).toBeVisible();
   await expect(page.getByText("Lab Summary Draft")).toBeVisible();
 
-  await page.getByRole("button", { name: "View" }).first().click();
+  await historyRow(page, "Reflection Memo 2")
+    .getByRole("button", { name: "View" })
+    .click();
   await expectPath(page, "/check/result/chk_1024");
   await expectHeading(page, HEADINGS.result);
 });
@@ -379,9 +409,9 @@ test("happy path e2e flow goes from login to final analysis", async ({ page }) =
   await mockReviewActions(page);
   await mockCheckById(page, "mock-check-001");
   await loginToDashboard(page);
-  await expectHeading(page, HEADINGS.dashboard);
 
   await page.getByRole("button", { name: "Start New Check" }).click();
+  await expectPath(page, ROUTES.start);
   await expectHeading(page, HEADINGS.start);
 
   await page.getByLabel(LABELS.conversation).fill(VALUES.happyPathConversation);
@@ -398,43 +428,25 @@ test("happy path e2e flow goes from login to final analysis", async ({ page }) =
 
 test("main routes render their primary pages", async ({ page }) => {
   await mockCheckById(page, "mock-check-001");
-  await mockHistoryItems(page, [
-    {
-      id: "hist-check-001",
-      title: "Reflection Memo 2",
-      course_code: "EDS345",
-      status: "completed",
-      decision: "Allowed With Advisory",
-      updated_at: "2026-03-20T10:19:00Z"
-    }
-  ]);
+  await mockHistoryItems(page, DEFAULT_HISTORY_ITEMS.slice(0, 1));
 
-  await page.goto(ROUTES.login);
-  await expectHeading(page, HEADINGS.login);
+  await goToAndExpectHeading(page, ROUTES.login, HEADINGS.login);
 
   await loginToDashboard(page);
-  await expectHeading(page, HEADINGS.dashboard);
 
-  await page.goto(ROUTES.start);
-  await expectHeading(page, HEADINGS.start);
+  await goToAndExpectHeading(page, ROUTES.start, HEADINGS.start);
 
-  await page.goto(ROUTES.context);
-  await expectHeading(page, HEADINGS.context);
+  await goToAndExpectHeading(page, ROUTES.context, HEADINGS.context);
 
-  await page.goto(ROUTES.review);
-  await expectHeading(page, HEADINGS.review);
+  await goToAndExpectHeading(page, ROUTES.review, HEADINGS.review);
 
-  await page.goto(ROUTES.result);
-  await expectHeading(page, HEADINGS.result);
+  await goToAndExpectHeading(page, ROUTES.result, HEADINGS.result);
 
-  await page.goto(ROUTES.history);
-  await expectHeading(page, HEADINGS.history);
+  await goToAndExpectHeading(page, ROUTES.history, HEADINGS.history);
 
-  await page.goto(ROUTES.learnMore);
-  await expectHeading(page, HEADINGS.learnMore);
+  await goToAndExpectHeading(page, ROUTES.learnMore, HEADINGS.learnMore);
 
-  await page.goto("/route-that-does-not-exist");
-  await expectHeading(page, HEADINGS.notFound);
+  await goToAndExpectHeading(page, "/route-that-does-not-exist", HEADINGS.notFound);
 });
 
 test("obvious navigation links and buttons work across the main pages", async ({
@@ -443,31 +455,27 @@ test("obvious navigation links and buttons work across the main pages", async ({
   await mockCheckById(page, "hist-check-001", {
     suspected_course: "EDS345"
   });
-  await mockHistoryItems(page, [
-    {
-      id: "hist-check-001",
-      title: "Reflection Memo 2",
-      course_code: "EDS345",
-      status: "completed",
-      decision: "Allowed With Advisory",
-      updated_at: "2026-03-20T10:19:00Z"
-    }
-  ]);
+  await mockHistoryItems(page, DEFAULT_HISTORY_ITEMS.slice(0, 1));
   await loginToDashboard(page);
 
   await page.getByRole("button", { name: "Learn More" }).click();
   await expectPath(page, ROUTES.learnMore);
+  await expectHeading(page, HEADINGS.learnMore);
 
   await page.getByRole("link", { name: "History" }).click();
   await expectPath(page, ROUTES.history);
+  await expectHeading(page, HEADINGS.history);
 
   await page.getByRole("link", { name: "Dashboard" }).click();
   await expectPath(page, ROUTES.dashboard);
+  await expectHeading(page, HEADINGS.dashboard);
 
   await page.getByRole("button", { name: "Start New Check" }).click();
   await expectPath(page, ROUTES.start);
+  await expectHeading(page, HEADINGS.start);
 
   await page.goto("/missing-page");
   await page.getByRole("button", { name: "Back to Dashboard" }).click();
   await expectPath(page, ROUTES.dashboard);
+  await expectHeading(page, HEADINGS.dashboard);
 });
