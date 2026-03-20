@@ -89,3 +89,47 @@ test("start new check requires text and confirmation before continuing", async (
     new RegExp(`^${escapeForRegex(APP_URL)}/check/context$`)
   );
 });
+
+test("course context page renders fields and routes back or forward correctly", async ({
+  page
+}) => {
+  await loginToDashboard(page);
+
+  await page.goto(`${APP_URL}/check/context`);
+
+  await expect(
+    page.getByRole("heading", { name: "Add Course Context" })
+  ).toBeVisible();
+
+  const institutionInput = page.getByLabel("Institution");
+  const courseCodeInput = page.getByLabel("Course Code");
+  const uoftCheckbox = page.getByLabel(
+    "I am a University of Toronto student"
+  );
+  const assignmentTypeSelect = page.getByLabel("Assignment Type");
+  const studentStatusSelect = page.getByLabel("Student Status");
+
+  await expect(institutionInput).toBeVisible();
+  await expect(courseCodeInput).toBeVisible();
+  await expect(uoftCheckbox).toBeVisible();
+  await expect(assignmentTypeSelect).toBeVisible();
+  await expect(studentStatusSelect).toBeVisible();
+
+  await page.getByRole("button", { name: "Back" }).click();
+  await expect(page).toHaveURL(
+    new RegExp(`^${escapeForRegex(APP_URL)}/check/start$`)
+  );
+
+  await page.goto(`${APP_URL}/check/context`);
+
+  await institutionInput.fill("University of Toronto");
+  await courseCodeInput.fill("CSC108");
+  await uoftCheckbox.check();
+  await assignmentTypeSelect.selectOption("Coding assignment");
+  await studentStatusSelect.selectOption("Undergraduate");
+
+  await page.getByRole("button", { name: "Continue" }).click();
+  await expect(page).toHaveURL(
+    new RegExp(`^${escapeForRegex(APP_URL)}/check/review$`)
+  );
+});
