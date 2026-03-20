@@ -1,9 +1,11 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import EmptyState from "../components/EmptyState";
+import LoadingState from "../components/LoadingState";
 import PageShell from "../components/PageShell";
 import SecondaryButton from "../components/SecondaryButton";
 import StatusBadge from "../components/StatusBadge";
-import mockHistory from "../data/mockHistory";
+import { getHistory } from "../lib/api";
 
 function formatDate(timestamp) {
   return new Date(timestamp).toLocaleDateString("en-CA", {
@@ -13,15 +15,30 @@ function formatDate(timestamp) {
   });
 }
 
-function getDecisionLabel(verdict) {
-  return String(verdict || "")
-    .split("_")
-    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-    .join(" ");
-}
-
 function HistoryPage() {
   const navigate = useNavigate();
+  const [items, setItems] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    let isActive = true;
+
+    getHistory()
+      .then((historyItems) => {
+        if (isActive) {
+          setItems(historyItems);
+        }
+      })
+      .finally(() => {
+        if (isActive) {
+          setIsLoading(false);
+        }
+      });
+
+    return () => {
+      isActive = false;
+    };
+  }, []);
 
   const handleRowAction = (item) => {
     if (item.status === "draft") {
@@ -59,7 +76,9 @@ function HistoryPage() {
           </p>
         </section>
 
-        {mockHistory.length === 0 ? (
+        {isLoading ? (
+          <LoadingState label="Loading history" />
+        ) : items.length === 0 ? (
           <EmptyState
             desc="Saved drafts and completed checks will appear here once you start using the review flow."
             title="No history yet"
@@ -101,7 +120,7 @@ function HistoryPage() {
             </div>
 
             <div style={{ display: "flex", flexDirection: "column" }}>
-              {mockHistory.map((item, index) => (
+              {items.map((item, index) => (
                 <div
                   key={item.id}
                   style={{
@@ -158,7 +177,7 @@ function HistoryPage() {
                     {item.courseCode}
                   </p>
 
-                  <StatusBadge variant={item.status === "draft" ? "draft" : "likelyAllowed"}>
+                  <StatusBadge variant={item.status === "draft" ? "draft" : item.decision}>
                     {item.status === "draft" ? "Draft" : "Completed"}
                   </StatusBadge>
 
@@ -170,7 +189,7 @@ function HistoryPage() {
                       lineHeight: 1.45
                     }}
                   >
-                    {getDecisionLabel(item.verdict)}
+                    {item.decision}
                   </p>
 
                   <SecondaryButton onClick={() => handleRowAction(item)}>

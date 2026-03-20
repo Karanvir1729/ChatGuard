@@ -13,6 +13,7 @@ function ReviewPage() {
   const { flowState } = useCheckFlow();
   const [isSavingDraft, setIsSavingDraft] = useState(false);
   const [isSubmittingCheck, setIsSubmittingCheck] = useState(false);
+  const isBusy = isSavingDraft || isSubmittingCheck;
 
   const conversationPreview = flowState.conversationText.trim()
     ? flowState.conversationText.trim()
@@ -39,7 +40,7 @@ function ReviewPage() {
   ];
 
   const handleSaveDraft = async () => {
-    if (isSavingDraft || isSubmittingCheck) {
+    if (isBusy) {
       return;
     }
 
@@ -54,7 +55,7 @@ function ReviewPage() {
   };
 
   const handleSubmitCheck = async () => {
-    if (isSavingDraft || isSubmittingCheck) {
+    if (isBusy) {
       return;
     }
 
@@ -288,13 +289,18 @@ function ReviewPage() {
           }}
         >
           <SecondaryButton
+            disabled={isBusy}
             loading={isSavingDraft}
             onClick={handleSaveDraft}
           >
             Save as Draft
           </SecondaryButton>
 
-          <PrimaryButton loading={isSubmittingCheck} onClick={handleSubmitCheck}>
+          <PrimaryButton
+            disabled={isBusy}
+            loading={isSubmittingCheck}
+            onClick={handleSubmitCheck}
+          >
             Submit Check
           </PrimaryButton>
         </section>
