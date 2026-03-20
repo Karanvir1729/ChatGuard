@@ -45,6 +45,85 @@ async function loginToDashboard(page) {
   await expect(page).toHaveURL(new RegExp(`^${escapeForRegex(APP_URL)}/?$`));
 }
 
+async function reachReviewPage(page) {
+  await loginToDashboard(page);
+
+  await page.goto(`${APP_URL}/check/start`);
+  await page.getByLabel("AI Conversation").fill(
+    "User: Can you help me outline my essay?\nAssistant: Yes, here is a possible structure."
+  );
+  await page
+    .getByLabel(
+      "I confirm this conversation is complete and belongs to the submission I want checked."
+    )
+    .check();
+  await page.getByRole("button", { name: "Continue" }).click();
+  await expect(page).toHaveURL(
+    new RegExp(`^${escapeForRegex(APP_URL)}/check/context$`)
+  );
+
+  await page.getByLabel("Institution").fill("University of Toronto");
+  await page.getByLabel("Course Code").fill("CSC108");
+  await page
+    .getByLabel("I am a University of Toronto student")
+    .check();
+  await page.getByLabel("Assignment Type").selectOption("Coding assignment");
+  await page.getByLabel("Student Status").selectOption("Undergraduate");
+  await page.getByRole("button", { name: "Continue" }).click();
+  await expect(page).toHaveURL(
+    new RegExp(`^${escapeForRegex(APP_URL)}/check/review$`)
+  );
+}
+
+async function mockReviewActions(page) {
+  await page.route("**/checks/draft", async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({
+        id: "draft-review-001",
+        title: "Coding assignment",
+        course_code: "CSC108",
+        status: "draft",
+        decision: "Draft",
+        updated_at: "2026-03-20T10:30:00Z"
+      })
+    });
+  });
+
+  await page.route("**/checks/analyze", async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({
+        id: "mock-check-001",
+        status: "completed",
+        summary:
+          "This review suggests the conversation reads like planning and revision support for a coding assignment.",
+        suspected_course: "CSC108",
+        classification: "Allowed With Advisory",
+        risk_level: "Minimal",
+        reasoning: [
+          "The conversation shows planning support rather than full answer submission."
+        ],
+        matched_policies: [
+          {
+            course_code: "CSC108",
+            section_title: "Use of AI Tools",
+            snippet:
+              "Planning and revision support may be acceptable when the final work remains the student's own."
+          }
+        ],
+        safer_next_steps: [
+          "Review the final submission in your own words before turning it in."
+        ],
+        created_at: "2026-03-20T10:31:00Z",
+        updated_at: "2026-03-20T10:31:00Z"
+      })
+    });
+  });
+}
+
 test("app loads, renders login, and reaches dashboard after simple login", async ({
   page
 }) => {
@@ -131,5 +210,51 @@ test("course context page renders fields and routes back or forward correctly", 
   await page.getByRole("button", { name: "Continue" }).click();
   await expect(page).toHaveURL(
     new RegExp(`^${escapeForRegex(APP_URL)}/check/review$`)
+  );
+});
+
+test("review page shows the submission summary and edit actions route correctly", async ({
+  page
+}) => {
+  await reachReviewPage(page);
+
+  await expect(
+    page.getByRole("heading", { name: "Review Submission" })
+  ).toBeVisible();
+  await expect(
+    page.getByText("User: Can you help me outline my essay?", { exact: false })
+  ).toBeVisible();
+  await expect(page.getByText("University of Toronto")).toBeVisible();
+  await expect(page.getByText("CSC108")).toBeVisible();
+
+  await page.getByRole("button", { name: "Edit Conversation" }).click();
+  await expect(page).toHaveURL(
+    new RegExp(`^${escapeForRegex(APP_URL)}/check/start$`)
+  );
+
+  await reachReviewPage(page);
+  await page.getByRole("button", { name: "Edit Course Info" }).click();
+  await expect(page).toHaveURL(
+    new RegExp(`^${escapeForRegex(APP_URL)}/check/context$`)
+  );
+});
+
+test("review page save as draft routes to history", async ({ page }) => {
+  await mockReviewActions(page);
+  await reachReviewPage(page);
+
+  await page.getByRole("button", { name: "Save as Draft" }).click();
+  await expect(page).toHaveURL(
+    new RegExp(`^${escapeForRegex(APP_URL)}/history$`)
+  );
+});
+
+test("review page submit check routes to the mock result page", async ({ page }) => {
+  await mockReviewActions(page);
+  await reachReviewPage(page);
+
+  await page.getByRole("button", { name: "Submit Check" }).click();
+  await expect(page).toHaveURL(
+    new RegExp(`^${escapeForRegex(APP_URL)}/check/result/mock-check-001$`)
   );
 });
