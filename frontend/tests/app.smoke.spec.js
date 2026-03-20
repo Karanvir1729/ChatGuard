@@ -200,12 +200,9 @@ function statusBadge(page, label = RESULT_STATUS) {
 }
 
 function historyRow(page, title) {
-  return page.locator("div").filter({
-    has: page.getByText(title, { exact: true }),
-    hasText: title
-  }).filter({
-    has: page.getByRole("button")
-  }).first();
+  return page
+    .getByText(title, { exact: true })
+    .locator("xpath=ancestor::div[button][1]");
 }
 
 async function loginToDashboard(page) {
