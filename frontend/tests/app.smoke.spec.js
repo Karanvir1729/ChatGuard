@@ -1,9 +1,14 @@
 import { expect, test } from "@playwright/test";
 
 const APP_URL = process.env.PLAYWRIGHT_BASE_URL || "http://127.0.0.1:5173";
+const API_URL = process.env.PLAYWRIGHT_API_URL || "http://127.0.0.1:8000";
 
 function escapeForRegex(value) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function apiUrlPattern(path) {
+  return new RegExp(`^${escapeForRegex(API_URL)}${path}$`);
 }
 
 async function mockSupabaseAuth(page) {
@@ -76,7 +81,7 @@ async function reachReviewPage(page) {
 }
 
 async function mockReviewActions(page) {
-  await page.route("**/checks/draft", async (route) => {
+  await page.route(apiUrlPattern("/checks/draft"), async (route) => {
     await route.fulfill({
       status: 200,
       contentType: "application/json",
@@ -91,7 +96,7 @@ async function mockReviewActions(page) {
     });
   });
 
-  await page.route("**/checks/analyze", async (route) => {
+  await page.route(apiUrlPattern("/checks/analyze"), async (route) => {
     await route.fulfill({
       status: 200,
       contentType: "application/json",
@@ -120,6 +125,51 @@ async function mockReviewActions(page) {
         created_at: "2026-03-20T10:31:00Z",
         updated_at: "2026-03-20T10:31:00Z"
       })
+    });
+  });
+}
+
+async function mockCheckById(page, checkId, overrides = {}) {
+  await page.route(apiUrlPattern(`/checks/${checkId}`), async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({
+        id: checkId,
+        status: "completed",
+        summary:
+          "This review suggests the conversation reads like planning and revision support.",
+        suspected_course: "CSC108",
+        classification: "Allowed With Advisory",
+        risk_level: "Minimal",
+        reasoning: [
+          "The conversation appears to support planning and revision rather than direct answer submission."
+        ],
+        matched_policies: [
+          {
+            course_code: "CSC108",
+            section_title: "Use of AI Tools",
+            snippet:
+              "Planning and revision support may be acceptable when the final work remains the student's own."
+          }
+        ],
+        safer_next_steps: [
+          "Review the final submission in your own words before turning it in."
+        ],
+        created_at: "2026-03-20T10:31:00Z",
+        updated_at: "2026-03-20T10:31:00Z",
+        ...overrides
+      })
+    });
+  });
+}
+
+async function mockHistoryItems(page, items) {
+  await page.route(apiUrlPattern("/history"), async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify(items)
     });
   });
 }
@@ -257,4 +307,63 @@ test("review page submit check routes to the mock result page", async ({ page })
   await expect(page).toHaveURL(
     new RegExp(`^${escapeForRegex(APP_URL)}/check/result/mock-check-001$`)
   );
+});
+
+test("result page renders key analysis sections and start new check routes back", async ({
+  page
+}) => {
+  await mockCheckById(page, "mock-check-001");
+  await loginToDashboard(page);
+
+  await page.goto(`${APP_URL}/check/result/mock-check-001`);
+
+  await expect(
+    page.getByRole("heading", { name: "Final Analysis" })
+  ).toBeVisible();
+  await expect(page.getByText("Allowed With Advisory")).toBeVisible();
+  await expect(page.getByText("Reasoning Behind Verdict")).toBeVisible();
+
+  await page.getByRole("button", { name: "Start New Check" }).click();
+  await expect(page).toHaveURL(
+    new RegExp(`^${escapeForRegex(APP_URL)}/check/start$`)
+  );
+});
+
+test("history page renders rows and can open a completed item", async ({ page }) => {
+  await mockHistoryItems(page, [
+    {
+      id: "hist-check-001",
+      title: "Reflection Memo 2",
+      course_code: "EDS345",
+      status: "completed",
+      decision: "Allowed With Advisory",
+      updated_at: "2026-03-20T10:19:00Z"
+    },
+    {
+      id: "hist-draft-001",
+      title: "Lab Summary Draft",
+      course_code: "BIO201",
+      status: "draft",
+      decision: "Draft",
+      updated_at: "2026-03-19T18:42:00Z"
+    }
+  ]);
+  await mockCheckById(page, "hist-check-001", {
+    suspected_course: "EDS345"
+  });
+  await loginToDashboard(page);
+
+  await page.goto(`${APP_URL}/history`);
+
+  await expect(page.getByRole("heading", { name: "History" })).toBeVisible();
+  await expect(page.getByText("Reflection Memo 2")).toBeVisible();
+  await expect(page.getByText("Lab Summary Draft")).toBeVisible();
+
+  await page.getByRole("button", { name: "View" }).click();
+  await expect(page).toHaveURL(
+    new RegExp(`^${escapeForRegex(APP_URL)}/check/result/hist-check-001$`)
+  );
+  await expect(
+    page.getByRole("heading", { name: "Final Analysis" })
+  ).toBeVisible();
 });
