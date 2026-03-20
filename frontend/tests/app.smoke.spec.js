@@ -174,6 +174,20 @@ async function mockHistoryItems(page, items) {
   });
 }
 
+async function failApiRequests(page, paths) {
+  for (const path of paths) {
+    await page.route(apiUrlPattern(path), async (route) => {
+      await route.fulfill({
+        status: 503,
+        contentType: "application/json",
+        body: JSON.stringify({
+          detail: "Backend unavailable in fallback test."
+        })
+      });
+    });
+  }
+}
+
 test("app loads, renders login, and reaches dashboard after simple login", async ({
   page
 }) => {
@@ -362,6 +376,55 @@ test("history page renders rows and can open a completed item", async ({ page })
   await page.getByRole("button", { name: "View" }).click();
   await expect(page).toHaveURL(
     new RegExp(`^${escapeForRegex(APP_URL)}/check/result/hist-check-001$`)
+  );
+  await expect(
+    page.getByRole("heading", { name: "Final Analysis" })
+  ).toBeVisible();
+});
+
+test("review submit falls back to mock result when backend analyze calls fail", async ({
+  page
+}) => {
+  await failApiRequests(page, [
+    "/checks/analyze",
+    "/checks/mock-check-001"
+  ]);
+  await reachReviewPage(page);
+
+  await page.getByRole("button", { name: "Submit Check" }).click();
+
+  await expect(page).toHaveURL(
+    new RegExp(`^${escapeForRegex(APP_URL)}/check/result/mock-check-001$`)
+  );
+  await expect(
+    page.getByRole("heading", { name: "Final Analysis" })
+  ).toBeVisible();
+  await expect(page.getByText("Allowed With Advisory")).toBeVisible();
+  await expect(
+    page.getByText("brainstorming, outlining, and language cleanup", {
+      exact: false
+    })
+  ).toBeVisible();
+});
+
+test("history page falls back to mock rows when the history api is unavailable", async ({
+  page
+}) => {
+  await failApiRequests(page, [
+    "/history",
+    "/checks/chk_1024"
+  ]);
+  await loginToDashboard(page);
+
+  await page.goto(`${APP_URL}/history`);
+
+  await expect(page.getByRole("heading", { name: "History" })).toBeVisible();
+  await expect(page.getByText("Reflection Memo 2")).toBeVisible();
+  await expect(page.getByText("Lab Summary Draft")).toBeVisible();
+
+  await page.getByRole("button", { name: "View" }).first().click();
+  await expect(page).toHaveURL(
+    new RegExp(`^${escapeForRegex(APP_URL)}/check/result/chk_1024$`)
   );
   await expect(
     page.getByRole("heading", { name: "Final Analysis" })
