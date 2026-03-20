@@ -430,3 +430,54 @@ test("history page falls back to mock rows when the history api is unavailable",
     page.getByRole("heading", { name: "Final Analysis" })
   ).toBeVisible();
 });
+
+test("happy path e2e flow goes from login to final analysis", async ({ page }) => {
+  await mockReviewActions(page);
+  await mockCheckById(page, "mock-check-001");
+  await loginToDashboard(page);
+
+  await expect(
+    page.getByRole("heading", {
+      name: "Check your AI conversation before you submit"
+    })
+  ).toBeVisible();
+
+  await page.getByRole("button", { name: "Start New Check" }).click();
+  await expect(
+    page.getByRole("heading", { name: "Start a New Check" })
+  ).toBeVisible();
+
+  await page.getByLabel("AI Conversation").fill(
+    "User: Can you help me plan my coding assignment?\nAssistant: Yes, here is a step-by-step outline you can review and adapt."
+  );
+  await page
+    .getByLabel(
+      "I confirm this conversation is complete and belongs to the submission I want checked."
+    )
+    .check();
+  await page.getByRole("button", { name: "Continue" }).click();
+
+  await expect(
+    page.getByRole("heading", { name: "Add Course Context" })
+  ).toBeVisible();
+  await page.getByLabel("Institution").fill("University of Toronto");
+  await page.getByLabel("Course Code").fill("CSC108");
+  await page
+    .getByLabel("I am a University of Toronto student")
+    .check();
+  await page.getByLabel("Assignment Type").selectOption("Coding assignment");
+  await page.getByLabel("Student Status").selectOption("Undergraduate");
+  await page.getByRole("button", { name: "Continue" }).click();
+
+  await expect(
+    page.getByRole("heading", { name: "Review Submission" })
+  ).toBeVisible();
+  await page.getByRole("button", { name: "Submit Check" }).click();
+
+  await expect(page).toHaveURL(
+    new RegExp(`^${escapeForRegex(APP_URL)}/check/result/mock-check-001$`)
+  );
+  await expect(
+    page.getByRole("heading", { name: "Final Analysis" })
+  ).toBeVisible();
+});
