@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+pydantic
+python-multipart
+chromadb
+httpx
+beautifulsoup4
+pytest
+python-dotenv
