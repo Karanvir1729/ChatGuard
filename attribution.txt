@@ -1,0 +1,58 @@
+Attribution
+
+Note: This file is created by codex. 
+
+This file records the user-authored prompts that directed the repository work in
+this ChatGuard build session. Entries are formatted in an APA-style reference
+list format for unpublished prompts submitted to OpenAI Codex on March 20,
+2026. One prompt that originally included credentials has been redacted for
+security.
+
+Document Preparation Note
+
+OpenAI Codex. (2026, March 20). Attribution file for ChatGuard build session [AI-generated attribution document prepared in response to user request]. Unpublished.
+
+References
+
+Khanna, K. (2026a, March 20). For every prompt after this [Project constraints prompt submitted to OpenAI Codex]. Unpublished.
+Khanna, K. (2026b, March 20). Create the ChatGuard repo scaffold [Repository scaffold prompt submitted to OpenAI Codex]. Unpublished.
+Khanna, K. (2026c, March 20). Fill in the root files [Root configuration prompt submitted to OpenAI Codex]. Unpublished.
+Khanna, K. (2026d, March 20). Set up frontend bootstrap [Frontend bootstrap prompt submitted to OpenAI Codex]. Unpublished.
+Khanna, K. (2026e, March 20). Set up backend bootstrap [Backend bootstrap prompt submitted to OpenAI Codex]. Unpublished.
+Khanna, K. (2026f, March 20). Do the global CSS [Global styling prompt submitted to OpenAI Codex]. Unpublished.
+Khanna, K. (2026g, March 20). Build the Sidebar and HeaderBar [Frontend component prompt submitted to OpenAI Codex]. Unpublished.
+Khanna, K. (2026h, March 20). Build the shared page shell [Layout component prompt submitted to OpenAI Codex]. Unpublished.
+Khanna, K. (2026i, March 20). Build the reusable button components [UI component prompt submitted to OpenAI Codex]. Unpublished.
+Khanna, K. (2026j, March 20). Build the basic form input components [Form component prompt submitted to OpenAI Codex]. Unpublished.
+Khanna, K. (2026k, March 20). Build the utility UI components [Utility component prompt submitted to OpenAI Codex]. Unpublished.
+Khanna, K. (2026l, March 20). Build TopProgress and the router skeleton [Router and progress prompt submitted to OpenAI Codex]. Unpublished.
+Khanna, K. (2026m, March 20). Set up auth helper and mock data files (credentials redacted) [Frontend auth and mock data prompt submitted to OpenAI Codex]. Unpublished.
+Khanna, K. (2026n, March 20). Build the Login page [Page implementation prompt submitted to OpenAI Codex]. Unpublished.
+Khanna, K. (2026o, March 20). Build the Dashboard page [Page implementation prompt submitted to OpenAI Codex]. Unpublished.
+Khanna, K. (2026p, March 20). Build ChatUploadBox [Component implementation prompt submitted to OpenAI Codex]. Unpublished.
+Khanna, K. (2026q, March 20). Build the Start New Check page [Page implementation prompt submitted to OpenAI Codex]. Unpublished.
+Khanna, K. (2026r, March 20). Build ContextForm [Component implementation prompt submitted to OpenAI Codex]. Unpublished.
+Khanna, K. (2026s, March 20). Build the Add Course Context page [Page implementation prompt submitted to OpenAI Codex]. Unpublished.
+Khanna, K. (2026t, March 20). Build ReviewCard [Component implementation prompt submitted to OpenAI Codex]. Unpublished.
+Khanna, K. (2026u, March 20). Build the Review Submission page [Page implementation prompt submitted to OpenAI Codex]. Unpublished.
+Khanna, K. (2026v, March 20). Build the result subcomponents [Result component prompt submitted to OpenAI Codex]. Unpublished.
+Khanna, K. (2026w, March 20). Build the Final Analysis page [Page implementation prompt submitted to OpenAI Codex]. Unpublished.
+Khanna, K. (2026x, March 20). Build the History page [Page implementation prompt submitted to OpenAI Codex]. Unpublished.
+Khanna, K. (2026y, March 20). Build the Learn More page and 404 page [Page implementation prompt submitted to OpenAI Codex]. Unpublished.
+Khanna, K. (2026z, March 20). Wire the frontend flow together with lightweight state [Frontend integration prompt submitted to OpenAI Codex]. Unpublished.
+Khanna, K. (2026aa, March 20). Build the backend core config, models, and storage [Backend infrastructure prompt submitted to OpenAI Codex]. Unpublished.
+Khanna, K. (2026ab, March 20). Build the backend routes [Backend API prompt submitted to OpenAI Codex]. Unpublished.
+Khanna, K. (2026ac, March 20). Build the retrieval and classification service stubs [Backend service prompt submitted to OpenAI Codex]. Unpublished.
+Khanna, K. (2026ad, March 20). Build the remaining backend helpers [Backend helper prompt submitted to OpenAI Codex]. Unpublished.
+Khanna, K. (2026ae, March 20). Add backend scripts and tests [Backend script and test prompt submitted to OpenAI Codex]. Unpublished.
+Khanna, K. (2026af, March 20). Lightly connect frontend to backend and do a cleanup pass [Frontend-backend integration prompt submitted to OpenAI Codex]. Unpublished.
+Khanna, K. (2026ag, March 20). Create a basic Playwright smoke test [Playwright test prompt submitted to OpenAI Codex]. Unpublished.
+Khanna, K. (2026ah, March 20). Add Playwright tests for the Start New Check page [Playwright test prompt submitted to OpenAI Codex]. Unpublished.
+Khanna, K. (2026ai, March 20). Add Playwright tests for the Add Course Context page [Playwright test prompt submitted to OpenAI Codex]. Unpublished.
+Khanna, K. (2026aj, March 20). Add Playwright tests for the Review Submission page [Playwright test prompt submitted to OpenAI Codex]. Unpublished.
+Khanna, K. (2026ak, March 20). Add Playwright tests for the Final Analysis and History pages [Playwright test prompt submitted to OpenAI Codex]. Unpublished.
+Khanna, K. (2026al, March 20). Add Playwright coverage for fallback behavior when backend or API fails [Playwright fallback prompt submitted to OpenAI Codex]. Unpublished.
+Khanna, K. (2026am, March 20). Add one full happy-path Playwright test across the main flow [Playwright end-to-end prompt submitted to OpenAI Codex]. Unpublished.
+Khanna, K. (2026an, March 20). Add a small navigation regression test set [Playwright regression prompt submitted to OpenAI Codex]. Unpublished.
+Khanna, K. (2026ao, March 20). Do a Playwright cleanup pass [Playwright suite maintenance prompt submitted to OpenAI Codex]. Unpublished.
+Khanna, K. (2026ap, March 20). Patch obvious weak spots [Playwright hardening prompt submitted to OpenAI Codex]. Unpublished.
